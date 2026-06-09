@@ -102,11 +102,12 @@ export default function AditiPortfolio() {
   return (
     <div className={`transition-colors duration-500 ${isDarkMode ? "bg-black text-white" : "bg-white text-black"}`}>
 
-      {/* ── HERO — full viewport ── */}
-      <section className={`relative w-full h-screen overflow-hidden ${isDarkMode ? "bg-black" : "bg-white"}`}>
-
-        {/* ── TOP BAR ── */}
-        <div className="absolute top-0 left-0 right-0 z-30">
+      {/* ── NAVBAR — fixed, always visible ── */}
+      <div className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
+        scrolled
+          ? isDarkMode ? "bg-black/90 backdrop-blur-sm border-b border-white/8" : "bg-white/90 backdrop-blur-sm border-b border-black/8"
+          : isDarkMode ? "bg-black" : "bg-white"
+      }`}>
           {/* Main bar row */}
           <div className="flex items-center justify-between px-4 sm:px-8 py-5 sm:py-7">
             {/* Logo */}
@@ -199,6 +200,10 @@ export default function AditiPortfolio() {
             </div>
           </div>
         </div>
+      </div>{/* end fixed navbar */}
+
+      {/* ── HERO — full viewport ── */}
+      <section className={`relative w-full h-screen overflow-hidden ${isDarkMode ? "bg-black" : "bg-white"}`}>
 
         {/* Centre hero — rectangle with shader inside, name on top */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6">
