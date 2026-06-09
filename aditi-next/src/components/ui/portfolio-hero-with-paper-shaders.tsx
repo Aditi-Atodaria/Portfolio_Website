@@ -213,7 +213,7 @@ export default function AditiPortfolio() {
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6">
 
           <p className={`font-mono text-[10px] sm:text-xs tracking-[0.4em] sm:tracking-[0.5em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/50" : "text-black/50"}`}>
-            B.Tech Computer Science · CGPA 8.06
+            B.Tech Computer Science
           </p>
 
           {/* Shader rectangle */}
