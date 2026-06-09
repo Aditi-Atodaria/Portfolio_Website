@@ -81,14 +81,11 @@ export default function AditiPortfolio() {
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Close mobile menu on scroll
   useEffect(() => {
     if (scrolled) setMenuOpen(false)
   }, [scrolled])
@@ -102,123 +99,128 @@ export default function AditiPortfolio() {
   return (
     <div className={`transition-colors duration-500 ${isDarkMode ? "bg-black text-white" : "bg-white text-black"}`}>
 
-      {/* ── NAVBAR — fixed, always visible ── */}
-      <div className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
+      {/* ─────────────────────────────────────────
+          NAVBAR  —  fixed, sits above everything
+      ───────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? isDarkMode ? "bg-black/90 backdrop-blur-sm border-b border-white/8" : "bg-white/90 backdrop-blur-sm border-b border-black/8"
+          ? isDarkMode
+            ? "bg-black/90 backdrop-blur-md border-b border-white/10"
+            : "bg-white/90 backdrop-blur-md border-b border-black/10"
           : isDarkMode ? "bg-black" : "bg-white"
       }`}>
-          {/* Main bar row */}
-          <div className="flex items-center justify-between px-4 sm:px-8 py-5 sm:py-7">
-            {/* Logo */}
-            <span className={`font-mono text-xs tracking-[0.3em] uppercase ${isDarkMode ? "text-white/40" : "text-black/40"}`}>
-              Aditi.portfolio
-            </span>
+        {/* Bar row */}
+        <div className="flex items-center justify-between px-4 sm:px-8 py-5 sm:py-7">
+          <span className={`font-mono text-xs tracking-[0.3em] uppercase ${isDarkMode ? "text-white/40" : "text-black/40"}`}>
+            Aditi.portfolio
+          </span>
 
-            {/* Desktop nav */}
-            <div className="hidden sm:flex items-center gap-4 md:gap-6">
-              {navLinks.map(label => (
-                <a
-                  key={label}
-                  href={`#${label.toLowerCase()}`}
-                  className={`font-mono text-xs tracking-widest uppercase transition-opacity ${isDarkMode ? "text-white/50 hover:text-white" : "text-black/50 hover:text-black"}`}
-                >
-                  {label}
-                </a>
-              ))}
-              <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`p-2 rounded-full transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
-                aria-label="Toggle theme"
+          {/* Desktop links */}
+          <div className="hidden sm:flex items-center gap-4 md:gap-6">
+            {navLinks.map(label => (
+              <a
+                key={label}
+                href={`#${label.toLowerCase()}`}
+                className={`font-mono text-xs tracking-widest uppercase transition-opacity ${isDarkMode ? "text-white/50 hover:text-white" : "text-black/50 hover:text-black"}`}
               >
-                {isDarkMode ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="5" />
-                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                  </svg>
-                )}
-              </button>
-            </div>
-
-            {/* Mobile: theme toggle + hamburger */}
-            <div className="flex sm:hidden items-center gap-2">
-              <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className={`p-2 rounded-full transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="12" cy="12" r="5" />
-                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                  </svg>
-                ) : (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                  </svg>
-                )}
-              </button>
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className={`p-2 rounded transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
-                aria-label="Toggle menu"
-              >
-                {menuOpen ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <line x1="3" y1="7" x2="21" y2="7" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="17" x2="21" y2="17" />
-                  </svg>
-                )}
-              </button>
-            </div>
+                {label}
+              </a>
+            ))}
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 rounded-full transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
           </div>
 
-          {/* Mobile dropdown menu */}
-          <div className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-64" : "max-h-0"}`}>
-            <div className={`flex flex-col px-4 pb-4 gap-1 ${isDarkMode ? "bg-black/95" : "bg-white/95"} backdrop-blur-sm`}>
-              {navLinks.map(label => (
-                <a
-                  key={label}
-                  href={`#${label.toLowerCase()}`}
-                  onClick={() => setMenuOpen(false)}
-                  className={`font-mono text-xs tracking-widest uppercase py-3 border-b transition-opacity ${
-                    isDarkMode
-                      ? "text-white/60 hover:text-white border-white/8"
-                      : "text-black/60 hover:text-black border-black/8"
-                  }`}
-                >
-                  {label}
-                </a>
-              ))}
-            </div>
+          {/* Mobile: theme + hamburger */}
+          <div className="flex sm:hidden items-center gap-2">
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 rounded-full transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              )}
+            </button>
+            <button
+              onClick={() => setMenuOpen(prev => !prev)}
+              className={`p-2 rounded transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="3" y1="7" x2="21" y2="7" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="17" x2="21" y2="17" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
-      </div>{/* end fixed navbar */}
 
-      {/* ── HERO — full viewport ── */}
+        {/* Mobile dropdown */}
+        <div className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-64" : "max-h-0"}`}>
+          <div className={`flex flex-col px-4 pb-4 gap-1 ${isDarkMode ? "bg-black" : "bg-white"}`}>
+            {navLinks.map(label => (
+              <a
+                key={label}
+                href={`#${label.toLowerCase()}`}
+                onClick={() => setMenuOpen(false)}
+                className={`font-mono text-xs tracking-widest uppercase py-3 border-b transition-opacity ${
+                  isDarkMode
+                    ? "text-white/60 hover:text-white border-white/8"
+                    : "text-black/60 hover:text-black border-black/8"
+                }`}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+      {/* ─────────────────────────────────────────
+          END NAVBAR
+      ───────────────────────────────────────── */}
+
+      {/* ─────────────────────────────────────────
+          HERO  —  full-viewport, shader rectangle
+      ───────────────────────────────────────── */}
       <section className={`relative w-full h-screen overflow-hidden ${isDarkMode ? "bg-black" : "bg-white"}`}>
 
-        {/* Centre hero — rectangle with shader inside, name on top */}
+        {/* Centre content */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6">
 
-          {/* Text ABOVE the rectangle */}
           <p className={`font-mono text-[10px] sm:text-xs tracking-[0.4em] sm:tracking-[0.5em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/50" : "text-black/50"}`}>
             B.Tech Computer Science · CGPA 8.06
           </p>
 
-          {/* The rectangle */}
+          {/* Shader rectangle */}
           <div
             className={`relative border ${isDarkMode ? "border-white" : "border-black"}`}
-            style={{ width: "min(92vw, 1100px)", height: "clamp(180px, 45vh, 520px)" }}
+            style={{ width: "min(90vw, 1100px)", height: "min(60vh, 520px)" }}
           >
-            {/* Shader confined to rectangle */}
             <div className="absolute inset-0 overflow-hidden">
               <Dithering
                 style={{ width: "100%", height: "100%" }}
@@ -234,8 +236,6 @@ export default function AditiPortfolio() {
                 speed={0.1}
               />
             </div>
-
-            {/* Name — centered inside rectangle */}
             <div className="absolute inset-0 flex items-center justify-center">
               <h1
                 className={`font-mono font-normal leading-tight tracking-tighter ${isDarkMode ? "text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" : "drop-shadow-[0_2px_12px_rgba(255,255,255,0.4)]"}`}
@@ -249,7 +249,6 @@ export default function AditiPortfolio() {
             </div>
           </div>
 
-          {/* Text BELOW the rectangle */}
           <p className={`font-mono text-[10px] sm:text-sm tracking-[0.25em] sm:tracking-[0.35em] uppercase mt-3 sm:mt-4 px-2 leading-relaxed ${isDarkMode ? "text-white/50" : "text-black/50"}`}>
             Full Stack Developer · AI-Assisted Workflows · Mechatronics Minor
           </p>
@@ -272,13 +271,14 @@ export default function AditiPortfolio() {
         </button>
       </section>
 
-      {/* ── CONTENT — scrollable sections below ── */}
+      {/* ─────────────────────────────────────────
+          SCROLLABLE CONTENT
+      ───────────────────────────────────────── */}
       <div ref={contentRef}>
 
-        {/* ── ABOUT ── */}
+        {/* ABOUT */}
         <section id="about" className={`border-t ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
-            {/* Top row: labels */}
             <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-16 mb-0">
               <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/25" : "text-black/60"}`}>01 — About</p>
               <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 hidden md:block ${isDarkMode ? "text-white/25" : "text-black/60"}`}>Education</p>
@@ -309,7 +309,7 @@ export default function AditiPortfolio() {
           </div>
         </section>
 
-        {/* ── PROJECTS ── */}
+        {/* PROJECTS */}
         <section id="projects" className={`border-t ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/25" : "text-black/60"}`}>02 — Projects</p>
@@ -320,10 +320,10 @@ export default function AditiPortfolio() {
               {PROJECTS.map((p, i) => (
                 <div key={i} className={`border-t transition-colors ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
 
-                  {/* ── Clickable row ── */}
+                  {/* Clickable row */}
                   <button
                     onClick={() => setOpenProject(openProject === i ? null : i)}
-                    className={`w-full text-left grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4 py-5 sm:py-6 transition-colors group ${
+                    className={`w-full text-left grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-4 py-5 sm:py-6 transition-colors ${
                       isDarkMode ? "hover:bg-white/2" : "hover:bg-black/2"
                     }`}
                   >
@@ -331,12 +331,11 @@ export default function AditiPortfolio() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 min-w-0">
-                      <span className={`font-mono text-base sm:text-lg truncate ${isDarkMode ? "text-white" : "text-black"}`}>{p.name}</span>
+                      <span className={`font-mono text-base sm:text-lg ${isDarkMode ? "text-white" : "text-black"}`}>{p.name}</span>
                       <span className={`font-mono text-xs border px-2 py-0.5 rounded-sm self-start sm:self-auto flex-shrink-0 ${
                         isDarkMode ? "border-white/15 text-white/40" : "border-black/30 text-black/60"
                       }`}>{p.tag}</span>
                     </div>
-                    {/* Chevron */}
                     <svg
                       width="16" height="16" viewBox="0 0 16 16" fill="none"
                       className={`transition-transform duration-300 flex-shrink-0 ${openProject === i ? "rotate-180" : ""} ${isDarkMode ? "text-white/30" : "text-black/40"}`}
@@ -345,23 +344,17 @@ export default function AditiPortfolio() {
                     </svg>
                   </button>
 
-                  {/* ── Expanded panel ── */}
+                  {/* Expanded panel */}
                   <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
                     openProject === i ? "max-h-[1200px] opacity-100" : "max-h-0 opacity-0"
                   }`}>
                     <div className={`ml-0 sm:ml-9 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
-
-                      {/* Subtitle */}
                       <p className={`font-mono text-xs tracking-[0.3em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/35" : "text-black/55"}`}>
                         {p.subtitle}
                       </p>
-
-                      {/* Description */}
                       <p className={`font-mono text-xs sm:text-sm leading-loose mb-5 sm:mb-6 ${isDarkMode ? "text-white/60" : "text-black/75"}`}>
                         {p.desc}
                       </p>
-
-                      {/* Bullet points */}
                       <ul className="space-y-2 mb-6 sm:mb-8">
                         {p.bullets.map((b, j) => (
                           <li key={j} className="flex items-start gap-3">
@@ -373,9 +366,7 @@ export default function AditiPortfolio() {
                           </li>
                         ))}
                       </ul>
-
-                      {/* Stack tags + links */}
-                      <div className="flex flex-col gap-3 sm:gap-0 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                         <div className="flex flex-wrap gap-1.5 sm:gap-2 flex-1">
                           {p.stack.map((s, j) => (
                             <span key={j} className={`font-mono text-xs px-2 sm:px-2.5 py-1 border rounded-sm ${
@@ -432,7 +423,7 @@ export default function AditiPortfolio() {
           </div>
         </section>
 
-        {/* ── SKILLS ── */}
+        {/* SKILLS */}
         <section id="skills" className={`border-t ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/25" : "text-black/60"}`}>03 — Skills</p>
@@ -475,7 +466,7 @@ export default function AditiPortfolio() {
           </div>
         </section>
 
-        {/* ── CONTACT ── */}
+        {/* CONTACT */}
         <section id="contact" className={`border-t ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/25" : "text-black/60"}`}>04 — Contact</p>
@@ -488,11 +479,11 @@ export default function AditiPortfolio() {
               </p>
               <div className="space-y-4">
                 {[
-                  { label: "Email",    val: "aditi.atodaria@gmail.com",       href: "mailto:aditi.atodaria@gmail.com" },
-                  { label: "LinkedIn", val: "linkedin.com/in/aditi-atodaria",  href: "https://linkedin.com/in/aditi-atodaria" },
-                  { label: "GitHub",   val: "github.com/Aditi-Atodaria",       href: "https://github.com/Aditi-Atodaria" },
+                  { label: "Email",    val: "aditi.atodaria@gmail.com",      href: "mailto:aditi.atodaria@gmail.com" },
+                  { label: "LinkedIn", val: "linkedin.com/in/aditi-atodaria", href: "https://linkedin.com/in/aditi-atodaria" },
+                  { label: "GitHub",   val: "github.com/Aditi-Atodaria",      href: "https://github.com/Aditi-Atodaria" },
                 ].map((link, i) => (
-                  <div key={i} className={`flex flex-col sm:flex-row sm:gap-6 sm:items-baseline border-b pb-4 gap-1 ${isDarkMode ? "border-white/6" : "border-black/15"}`}>
+                  <div key={i} className={`flex flex-col sm:flex-row sm:gap-6 sm:items-baseline gap-1 border-b pb-4 ${isDarkMode ? "border-white/6" : "border-black/15"}`}>
                     <span className={`font-mono text-xs sm:text-sm sm:w-16 flex-shrink-0 tracking-wider ${isDarkMode ? "text-white/25" : "text-black/55"}`}>{link.label}</span>
                     <a
                       href={link.href}
@@ -509,7 +500,7 @@ export default function AditiPortfolio() {
           </div>
         </section>
 
-        {/* ── FOOTER ── */}
+        {/* FOOTER */}
         <footer className={`border-t ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <span className={`font-mono text-xs tracking-widest uppercase ${isDarkMode ? "text-white/20" : "text-black/50"}`}>
