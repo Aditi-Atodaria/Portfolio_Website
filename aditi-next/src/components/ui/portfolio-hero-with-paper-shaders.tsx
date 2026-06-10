@@ -241,7 +241,7 @@ export default function AditiPortfolio() {
                 className={`font-mono font-normal leading-tight tracking-tighter ${isDarkMode ? "text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" : "drop-shadow-[0_2px_12px_rgba(255,255,255,0.4)]"}`}
                 style={{
                   fontSize: "clamp(2rem, 10vw, 6rem)",
-                  ...(isDarkMode ? {} : { color: "hsl(216°, 18%, 30%)" }),
+                  ...(isDarkMode ? {} : { color: "hsl(0°, 0%, 29%)" }),
                 }}
               >
                 ADITI<br />ATODARIA
