@@ -5,6 +5,23 @@ import { useState, useEffect, useRef } from "react"
 
 const PROJECTS = [
   {
+    name: "TruthGuard",
+    tag: "Next.js · AI",
+    subtitle: "Real-Time AI Fact-Checking Platform",
+    desc: "An AI-powered misinformation detection tool that verifies claims, articles, and social posts against live web sources and fact-check databases, returning a sourced verdict with a confidence score.",
+    bullets: [
+      { bold: "Multi-input verification", rest: "supporting raw text, article URLs, and social media screenshots via OCR" },
+      { bold: "LLM-powered reasoning", rest: "using Groq (Llama 3.3 70B) to extract claims and weigh evidence" },
+      { bold: "Live web search grounding", rest: "via the Tavily Search API, with a fallback search path" },
+      { bold: "Fact-check database cross-referencing", rest: "against the Google Fact Check Tools API" },
+      { bold: "Publisher-credibility scoring", rest: "that weights sources and produces a transparent confidence score" },
+      { bold: "Claim caching & history", rest: "backed by Supabase, avoiding redundant re-verification of the same claim" },
+    ],
+    stack: ["Next.js", "TypeScript", "React", "Tailwind CSS", "Groq API", "Tavily API", "Supabase", "Cheerio"],
+    github: "https://github.com/Aditi-Atodaria/TruthGuard",
+    demo: "https://truthguard-x9d1.vercel.app/",
+  },
+  {
     name: "Threadverse",
     tag: "Flask · AI",
     subtitle: "Multi-Vendor Fashion Commerce Platform",
