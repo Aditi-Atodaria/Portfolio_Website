@@ -2,8 +2,24 @@
 
 import { Dithering } from "@paper-design/shaders-react"
 import { useState, useEffect, useRef } from "react"
+import { ProjectCarousel, type CarouselImage } from "./project-carousel"
 
-const PROJECTS = [
+type Project = {
+  name: string
+  tag: string
+  subtitle: string
+  desc: string
+  bullets: { bold: string; rest: string }[]
+  stack: string[]
+  github: string
+  demo?: string
+  images?: CarouselImage[]
+  /** slide width / height */
+  aspect?: number
+  fit?: "contain" | "cover"
+}
+
+const PROJECTS: Project[] = [
   {
     name: "TruthGuard",
     tag: "Next.js · AI",
@@ -20,6 +36,13 @@ const PROJECTS = [
     stack: ["Next.js", "TypeScript", "React", "Tailwind CSS", "Groq API", "Tavily API", "Supabase", "Cheerio"],
     github: "https://github.com/Aditi-Atodaria/TruthGuard",
     demo: "https://truthguard-x9d1.vercel.app/",
+    aspect: 1.62,
+    images: [
+      { src: "/images/truthguard/01-home.png", alt: "Home: paste text, a URL or a screenshot to check a claim" },
+      { src: "/images/truthguard/02-how-it-works.png", alt: "How it works: submit, analyse, verdict" },
+      { src: "/images/truthguard/03-verdict.png", alt: "Verdict with confidence score, evidence and sources" },
+      { src: "/images/truthguard/04-history.png", alt: "History of verified claims with filters" },
+    ],
   },
   {
     name: "Threadverse",
@@ -36,6 +59,14 @@ const PROJECTS = [
     stack: ["Python", "Flask", "SQLite", "Jinja2", "JavaScript", "Groq API", "Authlib", "Werkzeug"],
     github: "https://github.com/Aditi-Atodaria/ThreadVerse",
     demo: "https://threadverse-3m5g.onrender.com/login",
+    aspect: 2.1,
+    images: [
+      { src: "/images/threadverse/01-home.png", alt: "Home page with featured products" },
+      { src: "/images/threadverse/02-ai-stylist.png", alt: "AI stylist chat with product suggestions" },
+      { src: "/images/threadverse/03-product.png", alt: "Product page with sizes, cart and wishlist" },
+      { src: "/images/threadverse/04-stores.png", alt: "Independent vendor stores" },
+      { src: "/images/threadverse/05-vendor-dashboard.png", alt: "Vendor dashboard with products, orders and revenue" },
+    ],
   },
   {
     name: "Regime Classifier",
@@ -51,6 +82,13 @@ const PROJECTS = [
     ],
     stack: ["Python", "NumPy", "scikit-learn", "pandas", "Matplotlib", "pytest"],
     github: "https://github.com/Aditi-Atodaria/Regime-Classifier",
+    aspect: 1.6,
+    images: [
+      { src: "/images/regime-classifier/confusion_h0.png", alt: "Nowcast: confusion matrix (today's regime)" },
+      { src: "/images/regime-classifier/loss_h0.png", alt: "Nowcast: training loss falling during gradient descent" },
+      { src: "/images/regime-classifier/confusion_h5.png", alt: "Forecast: confusion matrix (regime 5 days ahead)" },
+      { src: "/images/regime-classifier/loss_h5.png", alt: "Forecast: training loss falling during gradient descent" },
+    ],
   },
   {
     name: "Stock Analyzer",
@@ -349,7 +387,7 @@ export default function AditiPortfolio() {
 
                   {/* Expanded panel */}
                   <div className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    openProject === i ? "max-h-[1200px] opacity-100" : "max-h-0 opacity-0"
+                    openProject === i ? "max-h-[2400px] opacity-100" : "max-h-0 opacity-0"
                   }`}>
                     <div className={`ml-0 sm:ml-9 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b ${isDarkMode ? "border-white/8" : "border-black/8"}`}>
                       <p className={`font-mono text-xs tracking-[0.3em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/35" : "text-black/55"}`}>
@@ -358,6 +396,16 @@ export default function AditiPortfolio() {
                       <p className={`font-mono text-xs sm:text-sm leading-loose mb-5 sm:mb-6 ${isDarkMode ? "text-white/60" : "text-black/75"}`}>
                         {p.desc}
                       </p>
+                      {p.images && p.images.length > 0 && (
+                        <div className="mb-6 sm:mb-8">
+                          <ProjectCarousel
+                            images={p.images}
+                            isDarkMode={isDarkMode}
+                            aspect={p.aspect}
+                            fit={p.fit}
+                          />
+                        </div>
+                      )}
                       <ul className="space-y-2 mb-6 sm:mb-8">
                         {p.bullets.map((b, j) => (
                           <li key={j} className="flex items-start gap-3">
