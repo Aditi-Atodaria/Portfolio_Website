@@ -300,7 +300,7 @@ export default function AditiPortfolio() {
                 <div className={`border-t ${isDarkMode ? "border-white/8" : "border-black/8"} pt-6 space-y-4`}>
                   <div className="flex flex-wrap justify-between gap-2 font-mono text-sm sm:text-base">
                     <span>Navrachana University</span>
-                    <span className={isDarkMode ? "text-white/35" : "text-black/60"}>F.Y. · In Progress</span>
+                    <span className={isDarkMode ? "text-white/35" : "text-black/60"}>S.Y. · In Progress</span>
                   </div>
                   <div className={`flex flex-wrap justify-between gap-2 font-mono text-xs sm:text-sm ${isDarkMode ? "text-white/35" : "text-black/65"}`}>
                     <span>CGPA: 8.06</span>
