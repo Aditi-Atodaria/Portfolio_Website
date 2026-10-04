@@ -34,8 +34,8 @@ const PROJECTS = [
       { bold: "Wishlist system", rest: "with persistent user preferences across sessions" },
     ],
     stack: ["Python", "Flask", "SQLite", "Jinja2", "JavaScript", "Groq API", "Authlib", "Werkzeug"],
-    github: "https://github.com/Aditi-Atodaria/ThreadVerse",
-    demo: "https://threadverse-3m5g.onrender.com/login",
+    github: "https://github.com/Aditi-Atodaria/Threadverse-new",
+    demo: "https://threadverse-new.vercel.app/",
   },
   {
     name: "Regime Classifier",
