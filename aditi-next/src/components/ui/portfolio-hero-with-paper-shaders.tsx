@@ -1,8 +1,8 @@
 "use client"
 
 import { Dithering } from "@paper-design/shaders-react"
-import { Terminal } from "@lucasmarkes/hairline/react"
-import { useState, useEffect, useRef } from "react"
+import { Terminal, Cabinet } from "@lucasmarkes/hairline/react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { A11y, Autoplay, EffectCreative, Keyboard, Pagination } from "swiper/modules"
 import type { Swiper as SwiperType } from "swiper"
@@ -108,6 +108,21 @@ const carouselCss = `
   }
 `
 
+/** Hairline plates are filled, so their colour must match the page background. */
+const hairlineVars = (isDarkMode: boolean) =>
+  ({
+    "--hairline-plate": isDarkMode ? "#0e0e10" : "#ffffff",
+    ...(isDarkMode && {
+      "--hairline-edge": "#c4c4cc",
+      "--hairline-mid": "#7a7a85",
+      "--hairline-lo": "#3a3a42",
+    }),
+  }) as React.CSSProperties
+
+/** Cabinet has 12 blades (blade 12 is the top one). Cards walk down the cabinet: 12, 9, 6, 3. */
+const CABINET_BLADES = 12
+const bladeForProject = (index: number) => CABINET_BLADES - index * Math.floor(CABINET_BLADES / PROJECTS.length)
+
 const SKILLS = ["Python", "C", "JavaScript", "React", "React Native", "Three.js", "Jinja2", "HTML/CSS", "Flask", "SQLite", "Firebase", "Groq API", "Expo", "React Navigation", "Git", "Pillow", "Authlib", "Werkzeug"]
 
 const CURRENTLY_EXPLORING = [
@@ -120,6 +135,10 @@ export default function AditiPortfolio() {
   const [scrolled, setScrolled] = useState(false)
   const [activeProject, setActiveProject] = useState(0)
   const swiperRef = useRef<SwiperType | null>(null)
+  const cabinetRef = useRef<HTMLDivElement>(null)
+  const cabinetCaption = useRef("")
+  const cabinetHovered = useRef(false)
+  const activeProjectRef = useRef(0)
   const [menuOpen, setMenuOpen] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -132,6 +151,37 @@ export default function AditiPortfolio() {
   useEffect(() => {
     if (scrolled) setMenuOpen(false)
   }, [scrolled])
+
+  // Cabinet only reacts to the pointer, so to focus a blade we replay pointer moves over the
+  // figure: sweep its height, note which heights report "blade N", then rest on the middle one.
+  const focusBlade = useCallback((blade: number) => {
+    const el = cabinetRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    if (!r.width || !r.height) return // hidden on small screens
+    const x = r.left + r.width / 2
+    const fire = (type: string, y: number) =>
+      el.dispatchEvent(new PointerEvent(type, { bubbles: true, clientX: x, clientY: y, pointerType: "mouse" }))
+    const hits: number[] = []
+    for (let vy = 0; vy <= 320; vy += 2) {
+      const y = r.top + (vy / 320) * r.height
+      fire("pointermove", y)
+      if (cabinetCaption.current === `blade ${blade}`) hits.push(y)
+    }
+    if (hits.length) fire("pointermove", hits[Math.floor(hits.length / 2)])
+    else fire("pointerleave", r.top)
+  }, [])
+
+  useEffect(() => {
+    activeProjectRef.current = activeProject
+    if (!cabinetHovered.current) focusBlade(bladeForProject(activeProject))
+  }, [activeProject, focusBlade])
+
+  useEffect(() => {
+    const refocus = () => focusBlade(bladeForProject(activeProjectRef.current))
+    window.addEventListener("resize", refocus)
+    return () => window.removeEventListener("resize", refocus)
+  }, [focusBlade])
 
   const scrollDown = () => {
     contentRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -350,14 +400,7 @@ export default function AditiPortfolio() {
                 {/* Hairline terminal figure — plate colour must match the page background */}
                 <div
                   className="w-full max-w-sm md:max-w-none md:w-[112%] md:-ml-[12%] xl:w-[130%] xl:-ml-[15%]"
-                  style={{
-                    "--hairline-plate": isDarkMode ? "#0e0e10" : "#ffffff",
-                    ...(isDarkMode && {
-                      "--hairline-edge": "#c4c4cc",
-                      "--hairline-mid": "#7a7a85",
-                      "--hairline-lo": "#3a3a42",
-                    }),
-                  } as React.CSSProperties}
+                  style={hairlineVars(isDarkMode)}
                 >
                   <Terminal theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
                 </div>
@@ -400,7 +443,28 @@ export default function AditiPortfolio() {
               </div>
             </div>
 
-            <div className={`project-cards ${isDarkMode ? "text-white/90" : "text-black"}`}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-12 items-center">
+
+            {/* Cabinet — left on large screens, hidden below. Hover it to take over the focus. */}
+            <div className="hidden lg:block xl:w-[135%] xl:-ml-[20%]" style={hairlineVars(isDarkMode)}>
+              <Cabinet
+                ref={cabinetRef}
+                theme={isDarkMode ? "dark" : "light"}
+                intensity={0.6}
+                onRead={t => { cabinetCaption.current = t }}
+                onPointerEnter={() => { cabinetHovered.current = true }}
+                onPointerLeave={e => {
+                  cabinetHovered.current = false
+                  // wait for the figure to finish its own "leave", then return to the current card's blade
+                  window.setTimeout(
+                    () => { if (!cabinetHovered.current) focusBlade(bladeForProject(activeProjectRef.current)) },
+                    e.pointerType === "mouse" ? 60 : 1500,
+                  )
+                }}
+              />
+            </div>
+
+            <div className={`project-cards min-w-0 ${isDarkMode ? "text-white/90" : "text-black"}`}>
               <Swiper
                 modules={[EffectCreative, Pagination, Autoplay, Keyboard, A11y]}
                 effect="creative"
@@ -511,6 +575,7 @@ export default function AditiPortfolio() {
                   </SwiperSlide>
                 ))}
               </Swiper>
+            </div>
             </div>
           </div>
         </section>
