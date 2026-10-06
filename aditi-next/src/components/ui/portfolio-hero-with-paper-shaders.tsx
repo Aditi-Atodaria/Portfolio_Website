@@ -90,7 +90,10 @@ const PROJECTS: Project[] = [
 
 const carouselCss = `
   .project-cards .swiper {
-    padding-bottom: 44px;
+    padding-bottom: 52px; /* 36px arrow row + 16px gap */
+  }
+  .project-cards .swiper-pagination {
+    bottom: 8px !important; /* centres the 8px dots on the 36px arrow row */
   }
   .project-cards .swiper-slide {
     height: auto;
@@ -432,41 +435,18 @@ export default function AditiPortfolio() {
           <style>{carouselCss}</style>
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Projects</p>
-            <div className="flex items-end justify-between gap-4 mb-10 sm:mb-16">
+            <div className="mb-10 sm:mb-16">
               <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight ${isDarkMode ? "text-white/90" : "text-black"}`}>
                 Projects &amp;<br />Innovation
               </h2>
-
-              {/* Prev / next + counter */}
-              <div className="flex items-center gap-3 flex-shrink-0">
-                <span className={`font-mono text-[13px] sm:text-sm tabular-nums ${isDarkMode ? "text-white/55" : "text-black/60"}`}>
-                  {String(activeProject + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}
-                </span>
-                {(["prev", "next"] as const).map(dir => (
-                  <button
-                    key={dir}
-                    onClick={() => (dir === "prev" ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext())}
-                    aria-label={dir === "prev" ? "Previous project" : "Next project"}
-                    className={`w-9 h-9 flex items-center justify-center border transition-colors ${
-                      isDarkMode
-                        ? "border-white/30 text-white/70 hover:border-white/60 hover:text-white"
-                        : "border-black/30 text-black/65 hover:border-black/70 hover:text-black"
-                    }`}
-                  >
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className={dir === "prev" ? "" : "rotate-180"}>
-                      <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                ))}
-              </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-8 xl:gap-[44px] items-stretch">
+            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-y-2 gap-x-8 xl:gap-x-[44px] items-stretch">
 
             {/* Cabinet — left on extra-large screens, hidden below. Its height equals the card height
-                (the bottom offset is the carousel's pagination padding). Hover it to take over the focus. */}
+                (the bottom offset is the carousel's arrows/dots row). Hover it to take over the focus. */}
             <div className="hidden xl:block relative" style={hairlineVars(isDarkMode)}>
-              <div className="absolute inset-x-0 top-0 bottom-[44px]">
+              <div className="absolute inset-x-0 top-0 bottom-[52px]">
               <Cabinet
                 ref={cabinetRef}
                 className="absolute top-0 left-[calc(50%+32px)] -translate-x-1/2 h-full -scale-x-90 scale-y-90 origin-center"
@@ -489,7 +469,7 @@ export default function AditiPortfolio() {
               </div>
             </div>
 
-            <div className={`project-cards min-w-0 ${isDarkMode ? "text-white/90" : "text-black"}`}>
+            <div className={`project-cards relative min-w-0 ${isDarkMode ? "text-white/90" : "text-black"}`}>
               <Swiper
                 modules={[EffectCreative, Pagination, Autoplay, Keyboard, A11y]}
                 effect="creative"
@@ -600,6 +580,26 @@ export default function AditiPortfolio() {
                   </SwiperSlide>
                 ))}
               </Swiper>
+
+              {/* Prev / next arrows — on the card's edges, level with the dots */}
+              <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-between pointer-events-none">
+                {(["prev", "next"] as const).map(dir => (
+                  <button
+                    key={dir}
+                    onClick={() => (dir === "prev" ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext())}
+                    aria-label={dir === "prev" ? "Previous project" : "Next project"}
+                    className={`pointer-events-auto w-9 h-9 flex items-center justify-center border transition-colors ${
+                      isDarkMode
+                        ? "border-white/30 text-white/70 hover:border-white/60 hover:text-white"
+                        : "border-black/30 text-black/65 hover:border-black/70 hover:text-black"
+                    }`}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className={dir === "prev" ? "" : "rotate-180"}>
+                      <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
             </div>
             </div>
           </div>
