@@ -412,7 +412,7 @@ export default function AditiPortfolio() {
         {/* PROJECTS */}
         <section id="projects" className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <style>{carouselCss}</style>
-          <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Projects</p>
             <div className="flex items-end justify-between gap-4 mb-10 sm:mb-16">
               <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight ${isDarkMode ? "text-white/90" : "text-black"}`}>
@@ -443,12 +443,16 @@ export default function AditiPortfolio() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-12 items-center">
+            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-8 xl:gap-10 items-stretch">
 
-            {/* Cabinet — left on large screens, hidden below. Hover it to take over the focus. */}
-            <div className="hidden lg:block xl:w-[135%] xl:-ml-[20%]" style={hairlineVars(isDarkMode)}>
+            {/* Cabinet — left on extra-large screens, hidden below. Its height equals the card height
+                (the bottom offset is the carousel's pagination padding). Hover it to take over the focus. */}
+            <div className="hidden xl:block relative" style={hairlineVars(isDarkMode)}>
+              <div className="absolute inset-x-0 top-0 bottom-[44px]">
               <Cabinet
                 ref={cabinetRef}
+                className="absolute top-0 left-1/2 -translate-x-1/2 h-full"
+                style={{ width: "auto" }}
                 theme={isDarkMode ? "dark" : "light"}
                 intensity={0.6}
                 onRead={t => { cabinetCaption.current = t }}
@@ -462,6 +466,7 @@ export default function AditiPortfolio() {
                   )
                 }}
               />
+              </div>
             </div>
 
             <div className={`project-cards min-w-0 ${isDarkMode ? "text-white/90" : "text-black"}`}>
@@ -485,7 +490,7 @@ export default function AditiPortfolio() {
                 {PROJECTS.map((p, i) => (
                   <SwiperSlide key={p.name}>
                     <article
-                      className={`h-full border p-5 sm:p-8 md:p-10 flex flex-col gap-6 sm:gap-8 ${
+                      className={`h-full border p-5 sm:p-8 flex flex-col gap-6 sm:gap-8 ${
                         isDarkMode ? "bg-[#17171b] border-white/25" : "bg-white border-black/25"
                       }`}
                     >
