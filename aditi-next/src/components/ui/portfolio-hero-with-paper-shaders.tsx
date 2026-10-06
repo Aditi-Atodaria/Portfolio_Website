@@ -349,7 +349,7 @@ export default function AditiPortfolio() {
                 </div>
                 {/* Hairline terminal figure — plate colour must match the page background */}
                 <div
-                  className="w-full max-w-sm"
+                  className="w-full max-w-sm md:max-w-none md:w-[112%] md:-ml-[12%] xl:w-[130%] xl:-ml-[15%]"
                   style={{
                     "--hairline-plate": isDarkMode ? "#0e0e10" : "#ffffff",
                     ...(isDarkMode && {
