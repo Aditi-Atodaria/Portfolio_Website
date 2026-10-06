@@ -172,6 +172,24 @@ export default function AditiPortfolio() {
     else fire("pointerleave", r.top)
   }, [])
 
+  // The Cabinet is drawn mirrored (facing right) with CSS, but the figure reads the pointer in its own
+  // unmirrored space. Real pointer events are swallowed and replayed with a mirrored x so hover lines up.
+  // (Replayed and focusBlade events are untrusted and pass straight through.)
+  const mirrorPointer = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!e.nativeEvent.isTrusted) return
+    e.stopPropagation()
+    const el = e.currentTarget
+    const r = el.getBoundingClientRect()
+    el.dispatchEvent(new PointerEvent(e.type, {
+      bubbles: true,
+      clientX: r.left + r.right - e.clientX,
+      clientY: e.clientY,
+      pointerId: e.pointerId,
+      pointerType: e.pointerType,
+      isPrimary: e.isPrimary,
+    }))
+  }
+
   useEffect(() => {
     activeProjectRef.current = activeProject
     if (!cabinetHovered.current) focusBlade(bladeForProject(activeProject))
@@ -451,11 +469,13 @@ export default function AditiPortfolio() {
               <div className="absolute inset-x-0 top-0 bottom-[44px]">
               <Cabinet
                 ref={cabinetRef}
-                className="absolute top-0 left-1/2 -translate-x-1/2 h-full scale-90 origin-[72%_50%]"
+                className="absolute top-0 left-[calc(50%+32px)] -translate-x-1/2 h-full -scale-x-90 scale-y-90 origin-center"
                 style={{ width: "auto" }}
                 theme={isDarkMode ? "dark" : "light"}
                 intensity={0.6}
                 onRead={t => { cabinetCaption.current = t }}
+                onPointerMoveCapture={mirrorPointer}
+                onPointerDownCapture={mirrorPointer}
                 onPointerEnter={() => { cabinetHovered.current = true }}
                 onPointerLeave={e => {
                   cabinetHovered.current = false
