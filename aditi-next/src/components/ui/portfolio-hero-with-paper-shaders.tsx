@@ -1,6 +1,7 @@
 "use client"
 
 import { Dithering } from "@paper-design/shaders-react"
+import { Terminal } from "@lucasmarkes/hairline/react"
 import { useState, useEffect, useRef } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { A11y, Autoplay, EffectCreative, Keyboard, Pagination } from "swiper/modules"
@@ -345,6 +346,20 @@ export default function AditiPortfolio() {
                     <span>CGPA: 8.06</span>
                     <span>B.Tech CSE</span>
                   </div>
+                </div>
+                {/* Hairline terminal figure — plate colour must match the page background */}
+                <div
+                  className="w-full max-w-sm"
+                  style={{
+                    "--hairline-plate": isDarkMode ? "#0e0e10" : "#ffffff",
+                    ...(isDarkMode && {
+                      "--hairline-edge": "#c4c4cc",
+                      "--hairline-mid": "#7a7a85",
+                      "--hairline-lo": "#3a3a42",
+                    }),
+                  } as React.CSSProperties}
+                >
+                  <Terminal theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
                 </div>
               </div>
             </div>
