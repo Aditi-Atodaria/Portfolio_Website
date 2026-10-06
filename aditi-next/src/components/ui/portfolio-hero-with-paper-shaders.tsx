@@ -121,6 +121,21 @@ const hairlineVars = (isDarkMode: boolean) =>
     }),
   }) as React.CSSProperties
 
+/**
+ * Accent colour for the Hairline figures, taken from the hero's active palette.
+ * Only the focused part is tinted: the lit drawer (Cabinet), the lit file (Riffle) and, while hovered,
+ * the content rows of the Terminal. Everything else keeps the figure's normal grey.
+ */
+const accentVars = (isDarkMode: boolean) =>
+  ({ "--hl-accent": PALETTES[PALETTE][isDarkMode ? "dark" : "light"] }) as React.CSSProperties
+
+const hairlineAccentCss = `
+  .hl-accent svg .hi { stroke: var(--hl-accent); }
+  .hl-accent svg .dot:not(.m):not(.off) { fill: var(--hl-accent); }
+  .hl-terminal-hot svg [data-hl-content],
+  .hl-terminal-hot svg [data-hl-content] path { stroke: var(--hl-accent); }
+`
+
 /** Cabinet has 12 blades (blade 12 is the top one). Cards walk down the cabinet: 12, 9, 6, 3. */
 const CABINET_BLADES = 12
 const bladeForProject = (index: number) => CABINET_BLADES - index * Math.floor(CABINET_BLADES / PROJECTS.length)
@@ -131,6 +146,19 @@ const CURRENTLY_EXPLORING = [
   { title: "Mechatronics", desc: "Pursuing a minor, bridging software with mechanical and electrical systems — embedded hardware, sensors, and intelligent machines." },
   { title: "Machine Learning", desc: "Actively learning ML fundamentals — model training, data pipelines, and applying intelligent systems to real engineering problems." },
 ]
+
+/** Dither colours: [dark mode, light mode]. Change PALETTE to switch the hero shader. */
+const PALETTES = {
+  ember:  { dark: "hsl(25, 100%, 55%)",  light: "hsl(220, 100%, 62%)" }, // original
+  aurora: { dark: "hsl(158, 85%, 52%)",  light: "hsl(160, 90%, 32%)" },
+  violet: { dark: "hsl(258, 95%, 72%)",  light: "hsl(262, 83%, 52%)" },
+  rose:   { dark: "hsl(335, 100%, 62%)", light: "hsl(338, 85%, 52%)" },
+  cyan:   { dark: "hsl(187, 90%, 55%)",  light: "hsl(192, 95%, 38%)" },
+  mono:   { dark: "hsl(0, 0%, 88%)",     light: "hsl(0, 0%, 12%)" },
+  gold:   { dark: "hsl(43, 100%, 60%)",  light: "hsl(28, 95%, 46%)" },
+  crimson:{ dark: "hsl(2, 95%, 62%)",    light: "hsl(356, 78%, 50%)" },
+} as const
+const PALETTE: keyof typeof PALETTES = "cyan"
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
 function usePrefersReducedMotion() {
@@ -156,6 +184,8 @@ export default function AditiPortfolio() {
   const cabinetHovered = useRef(false)
   const activeProjectRef = useRef(0)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [terminalHot, setTerminalHot] = useState(false)
+  const terminalRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -216,6 +246,16 @@ export default function AditiPortfolio() {
     window.addEventListener("resize", refocus)
     return () => window.removeEventListener("resize", refocus)
   }, [focusBlade])
+
+  // Tag the Terminal's content rows, chevron and cursor so they can be tinted on hover. The figure draws its
+  // groups in a fixed order: slab, history rows, prompt plate, chevron, cursor, title bar, three window dots.
+  useEffect(() => {
+    const g = terminalRef.current?.querySelector("svg > g")
+    if (!g || g.children.length < 9) return
+    const kids = Array.from(g.children)
+    const content = [...kids.slice(1, kids.length - 7), kids[kids.length - 6], kids[kids.length - 5]]
+    content.forEach(el => el.setAttribute("data-hl-content", ""))
+  }, [])
 
   const scrollDown = () => {
     contentRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -355,7 +395,7 @@ export default function AditiPortfolio() {
               <Dithering
                 style={{ width: "100%", height: "100%" }}
                 colorBack={isDarkMode ? "#0e0e10" : "hsl(0, 0%, 100%)"}
-                colorFront={isDarkMode ? "hsl(187, 90%, 55%)" : "hsl(192, 95%, 38%)"}
+                colorFront={isDarkMode ? PALETTES[PALETTE].dark : PALETTES[PALETTE].light}
                 shape="warp"
                 type="4x4"
                 size={3}
@@ -436,8 +476,11 @@ export default function AditiPortfolio() {
                 </div>
                 {/* Hairline terminal figure — plate colour must match the page background */}
                 <div
-                  className="w-full max-w-sm md:max-w-none md:w-[112%] md:-ml-[12%] xl:w-[130%] xl:-ml-[15%]"
-                  style={hairlineVars(isDarkMode)}
+                  ref={terminalRef}
+                  className={`w-full max-w-sm md:max-w-none md:w-[112%] md:-ml-[12%] xl:w-[130%] xl:-ml-[15%] hl-accent ${terminalHot ? "hl-terminal-hot" : ""}`}
+                  style={{ ...hairlineVars(isDarkMode), ...accentVars(isDarkMode) }}
+                  onPointerEnter={() => setTerminalHot(true)}
+                  onPointerLeave={() => setTerminalHot(false)}
                 >
                   <Terminal theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
                 </div>
@@ -448,20 +491,22 @@ export default function AditiPortfolio() {
 
         {/* PROJECTS */}
         <section id="projects" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
-          <style>{carouselCss}</style>
+          <style>{carouselCss + hairlineAccentCss}</style>
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
+            <div className="max-w-[60rem] mx-auto">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Projects</p>
             <div className="mb-10 sm:mb-16">
               <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight ${isDarkMode ? "text-white/90" : "text-black"}`}>
                 Projects &amp; Innovation
               </h2>
             </div>
+            </div>
 
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-y-2 gap-x-8 xl:gap-x-[51px] items-stretch">
 
             {/* Cabinet — left on extra-large screens, hidden below. Its height equals the card height
                 (the bottom offset is the carousel's arrows/dots row). Hover it to take over the focus. */}
-            <div className="hidden xl:block relative" style={hairlineVars(isDarkMode)}>
+            <div className="hidden xl:block relative hl-accent" style={{ ...hairlineVars(isDarkMode), ...accentVars(isDarkMode) }}>
               <div className="absolute inset-x-0 top-0 bottom-[52px]">
               <Cabinet
                 ref={cabinetRef}
@@ -560,10 +605,11 @@ export default function AditiPortfolio() {
                             href={p.github}
                             target="_blank"
                             rel="noreferrer"
+                            style={{ borderColor: PALETTES[PALETTE][isDarkMode ? "dark" : "light"] }}
                             className={`flex items-center gap-2 font-mono text-[13px] px-3 sm:px-4 py-2 border transition-colors flex-shrink-0 ${
                               isDarkMode
-                                ? "border-white/30 text-white/70 hover:border-white/60 hover:text-white"
-                                : "border-black/30 text-black/65 hover:border-black/70 hover:text-black"
+                                ? "text-white/70 hover:text-white"
+                                : "text-black/65 hover:text-black"
                             }`}
                           >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -667,8 +713,8 @@ export default function AditiPortfolio() {
               {/* Hairline riffle figure — plate colour must match the page background */}
               <div className="md:self-center">
                 <div
-                  className="w-full max-w-sm md:max-w-none md:w-[129%] md:-ml-[14.5%] xl:w-[150%] xl:-ml-[25%]"
-                  style={hairlineVars(isDarkMode)}
+                  className="w-full max-w-sm md:max-w-none md:w-[129%] md:-ml-[14.5%] xl:w-[150%] xl:-ml-[25%] hl-accent"
+                  style={{ ...hairlineVars(isDarkMode), ...accentVars(isDarkMode) }}
                 >
                   <Riffle theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
                 </div>
