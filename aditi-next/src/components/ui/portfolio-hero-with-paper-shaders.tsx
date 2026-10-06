@@ -453,7 +453,7 @@ export default function AditiPortfolio() {
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Projects</p>
             <div className="mb-10 sm:mb-16">
               <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight ${isDarkMode ? "text-white/90" : "text-black"}`}>
-                Projects &amp;<br />Innovation
+                Projects &amp; Innovation
               </h2>
             </div>
 
@@ -627,7 +627,7 @@ export default function AditiPortfolio() {
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>03 — Skills</p>
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
-              Technical<br />Stack
+              Technical Stack
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-10 md:gap-16">
               <div className="space-y-10 sm:space-y-14">
