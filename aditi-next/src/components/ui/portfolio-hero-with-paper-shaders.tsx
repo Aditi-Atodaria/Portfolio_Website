@@ -581,14 +581,15 @@ export default function AditiPortfolio() {
                 ))}
               </Swiper>
 
-              {/* Prev / next arrows — on the card's edges, level with the dots */}
-              <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-between pointer-events-none">
+              {/* Prev / next arrows — either side of the dots (the empty spacer is as wide as the dots: 16px per dot) */}
+              <div className="absolute inset-x-0 bottom-0 z-20 flex items-center justify-center gap-4 pointer-events-none">
+                <span aria-hidden className="order-2 h-9" style={{ width: PROJECTS.length * 16 }} />
                 {(["prev", "next"] as const).map(dir => (
                   <button
                     key={dir}
                     onClick={() => (dir === "prev" ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext())}
                     aria-label={dir === "prev" ? "Previous project" : "Next project"}
-                    className={`pointer-events-auto w-9 h-9 flex items-center justify-center border transition-colors ${
+                    className={`pointer-events-auto ${dir === "prev" ? "order-1" : "order-3"} w-9 h-9 flex items-center justify-center border transition-colors ${
                       isDarkMode
                         ? "border-white/30 text-white/70 hover:border-white/60 hover:text-white"
                         : "border-black/30 text-black/65 hover:border-black/70 hover:text-black"
