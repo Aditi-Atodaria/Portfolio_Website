@@ -607,7 +607,7 @@ export default function AditiPortfolio() {
         </section>
 
         {/* SKILLS */}
-        <section id="skills" className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
+        <section id="skills" className={`overflow-x-clip border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>03 — Skills</p>
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
@@ -651,7 +651,7 @@ export default function AditiPortfolio() {
               {/* Hairline riffle figure — plate colour must match the page background */}
               <div className="md:self-center">
                 <div
-                  className="w-full max-w-sm md:max-w-none md:w-[112%] md:-ml-[12%] xl:w-[130%] xl:-ml-[15%]"
+                  className="w-full max-w-sm md:max-w-none md:w-[129%] md:-ml-[14.5%] xl:w-[150%] xl:-ml-[25%]"
                   style={hairlineVars(isDarkMode)}
                 >
                   <Riffle theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
