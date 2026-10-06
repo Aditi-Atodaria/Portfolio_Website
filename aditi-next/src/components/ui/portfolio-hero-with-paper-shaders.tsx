@@ -2,7 +2,7 @@
 
 import { Dithering } from "@paper-design/shaders-react"
 import { Terminal, Cabinet, Riffle } from "@lucasmarkes/hairline/react"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { A11y, Autoplay, EffectCreative, Keyboard, Pagination } from "swiper/modules"
 import type { Swiper as SwiperType } from "swiper"
@@ -66,7 +66,7 @@ const PROJECTS: Project[] = [
       { bold: "Verified for correctness", rest: "with a numerical gradient check, 11 unit tests, and 99.97% prediction agreement with scikit-learn" },
       { bold: "Leak-free evaluation", rest: "using a chronological train/test split, a gap for the forecast task, and a scaler fitted on training data only" },
       { bold: "77.2% accuracy, 0.705 macro-F1", rest: "on held-out data when classifying today's regime, vs 55.9% and 0.179 for the majority class" },
-      { bold: "Honest forecasting result", rest: "— the 5-day-ahead forecast did not beat a persistence baseline (macro-F1 0.630 vs 0.727)" },
+      { bold: "5-day-ahead forecast", rest: "did not beat a persistence baseline (macro-F1 0.630 vs 0.727), and is reported as-is" },
     ],
     stack: ["Python", "NumPy", "scikit-learn", "pandas", "Matplotlib", "pytest"],
     github: "https://github.com/Aditi-Atodaria/Regime-Classifier",
@@ -80,7 +80,6 @@ const PROJECTS: Project[] = [
       { bold: "CSV parsing", rest: "of historical OHLCV price data from raw files" },
       { bold: "RSI calculation", rest: "implemented from scratch to understand the underlying algorithm" },
       { bold: "Volume metric analysis", rest: "to identify accumulation and distribution signals" },
-      { bold: "Ground-up implementation", rest: "with no external libraries — pure C logic throughout" },
       { bold: "Command-line interface", rest: "for flexible input and readable indicator output" },
     ],
     stack: ["C", "CSV Parsing", "Technical Indicators"],
@@ -126,14 +125,28 @@ const hairlineVars = (isDarkMode: boolean) =>
 const CABINET_BLADES = 12
 const bladeForProject = (index: number) => CABINET_BLADES - index * Math.floor(CABINET_BLADES / PROJECTS.length)
 
-const SKILLS = ["Python", "C", "JavaScript", "React", "React Native", "Three.js", "Jinja2", "HTML/CSS", "Flask", "SQLite", "Firebase", "Groq API", "Expo", "React Navigation", "Git", "Pillow", "Authlib", "Werkzeug"]
+const SKILLS = ["Python", "C", "TypeScript", "JavaScript", "React", "Next.js", "Tailwind CSS", "HTML/CSS", "Flask", "SQLite", "Supabase", "Groq API", "NumPy", "pandas", "scikit-learn", "Git"]
 
 const CURRENTLY_EXPLORING = [
   { title: "Mechatronics", desc: "Pursuing a minor, bridging software with mechanical and electrical systems — embedded hardware, sensors, and intelligent machines." },
   { title: "Machine Learning", desc: "Actively learning ML fundamentals — model training, data pipelines, and applying intelligent systems to real engineering problems." },
 ]
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    cb => {
+      const mq = window.matchMedia(REDUCED_MOTION_QUERY)
+      mq.addEventListener("change", cb)
+      return () => mq.removeEventListener("change", cb)
+    },
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false,
+  )
+}
+
 export default function AditiPortfolio() {
+  const reduceMotion = usePrefersReducedMotion()
   const [isDarkMode, setIsDarkMode] = useState(true)
   const [scrolled, setScrolled] = useState(false)
   const [activeProject, setActiveProject] = useState(0)
@@ -146,14 +159,14 @@ export default function AditiPortfolio() {
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40)
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 40
+      setScrolled(isScrolled)
+      if (isScrolled) setMenuOpen(false)
+    }
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
-  useEffect(() => {
-    if (scrolled) setMenuOpen(false)
-  }, [scrolled])
 
   // Cabinet only reacts to the pointer, so to focus a blade we replay pointer moves over the
   // figure: sweep its height, note which heights report "blade N", then rest on the middle one.
@@ -225,7 +238,7 @@ export default function AditiPortfolio() {
       }`}>
         {/* Bar row */}
         <div className="flex items-center justify-between px-4 sm:px-8 py-5 sm:py-7">
-          <span className={`font-mono text-[13px] tracking-[0.3em] uppercase ${isDarkMode ? "text-white/55" : "text-black/40"}`}>
+          <span className={`font-mono text-[13px] tracking-[0.3em] uppercase ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
             Aditi.portfolio
           </span>
 
@@ -235,7 +248,7 @@ export default function AditiPortfolio() {
               <a
                 key={label}
                 href={`#${label.toLowerCase()}`}
-                className={`font-mono text-[13px] tracking-widest uppercase transition-opacity ${isDarkMode ? "text-white/70 hover:text-white" : "text-black/50 hover:text-black"}`}
+                className={`font-mono text-[13px] tracking-widest uppercase transition-opacity ${isDarkMode ? "text-white/70 hover:text-white" : "text-black/65 hover:text-black"}`}
               >
                 {label}
               </a>
@@ -244,6 +257,7 @@ export default function AditiPortfolio() {
               onClick={() => setIsDarkMode(!isDarkMode)}
               className={`p-2 rounded-full transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
               aria-label="Toggle theme"
+              aria-pressed={!isDarkMode}
             >
               {isDarkMode ? (
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -264,6 +278,7 @@ export default function AditiPortfolio() {
               onClick={() => setIsDarkMode(!isDarkMode)}
               className={`p-2 rounded-full transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
               aria-label="Toggle theme"
+              aria-pressed={!isDarkMode}
             >
               {isDarkMode ? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -280,6 +295,7 @@ export default function AditiPortfolio() {
               onClick={() => setMenuOpen(prev => !prev)}
               className={`p-2 rounded transition-colors ${isDarkMode ? "hover:bg-white/10" : "hover:bg-black/10"}`}
               aria-label="Toggle menu"
+              aria-expanded={menuOpen}
             >
               {menuOpen ? (
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -321,12 +337,12 @@ export default function AditiPortfolio() {
       {/* ─────────────────────────────────────────
           HERO  —  full-viewport, shader rectangle
       ───────────────────────────────────────── */}
-      <section className={`relative w-full h-screen overflow-hidden ${isDarkMode ? "bg-[#0e0e10]" : "bg-white"}`}>
+      <section className={`relative w-full h-svh overflow-hidden ${isDarkMode ? "bg-[#0e0e10]" : "bg-white"}`}>
 
         {/* Centre content */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6">
 
-          <p className={`font-mono text-[13px] sm:text-[13px] tracking-[0.4em] sm:tracking-[0.5em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/70" : "text-black/50"}`}>
+          <p className={`font-mono text-[13px] sm:text-[13px] tracking-[0.4em] sm:tracking-[0.5em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/70" : "text-black/65"}`}>
             B.Tech Computer Science
           </p>
 
@@ -339,7 +355,7 @@ export default function AditiPortfolio() {
               <Dithering
                 style={{ width: "100%", height: "100%" }}
                 colorBack={isDarkMode ? "#0e0e10" : "hsl(0, 0%, 100%)"}
-                colorFront={isDarkMode ? "hsl(220, 89%, 55%)" : "hsl(220, 100%, 62%)"}
+                colorFront={isDarkMode ? "hsl(25, 100%, 55%)" : "hsl(220, 100%, 62%)"}
                 shape="warp"
                 type="4x4"
                 size={3}
@@ -347,7 +363,7 @@ export default function AditiPortfolio() {
                 offsetY={0}
                 scale={0.9}
                 rotation={0}
-                speed={0.1}
+                speed={reduceMotion ? 0 : 0.1}
               />
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
@@ -355,7 +371,7 @@ export default function AditiPortfolio() {
                 className={`font-mono font-normal leading-tight tracking-tighter ${isDarkMode ? "text-white/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" : "drop-shadow-[0_2px_12px_rgba(255,255,255,0.4)]"}`}
                 style={{
                   fontSize: "clamp(2rem, 10vw, 6rem)",
-                  ...(isDarkMode ? {} : { color: "hsl(0°, 0%, 29%)" }),
+                  ...(isDarkMode ? {} : { color: "hsl(0, 0%, 29%)" }),
                 }}
               >
                 ADITI<br />ATODARIA
@@ -363,7 +379,7 @@ export default function AditiPortfolio() {
             </div>
           </div>
 
-          <p className={`font-mono text-[13px] sm:text-sm tracking-[0.25em] sm:tracking-[0.35em] uppercase mt-3 sm:mt-4 px-2 leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/50"}`}>
+          <p className={`font-mono text-[13px] sm:text-sm tracking-[0.25em] sm:tracking-[0.35em] uppercase mt-3 sm:mt-4 px-2 leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/65"}`}>
             Full Stack Developer · AI-Assisted Workflows · Mechatronics Minor
           </p>
         </div>
@@ -373,7 +389,7 @@ export default function AditiPortfolio() {
           onClick={scrollDown}
           className={`absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 font-mono text-[13px] tracking-widest uppercase transition-opacity ${
             scrolled ? "opacity-0 pointer-events-none" : "opacity-100"
-          } ${isDarkMode ? "text-white/55 hover:text-white/70" : "text-black/30 hover:text-black/60"}`}
+          } ${isDarkMode ? "text-white/55 hover:text-white/70" : "text-black/60 hover:text-black"}`}
         >
           <span>Scroll</span>
           <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
@@ -391,7 +407,7 @@ export default function AditiPortfolio() {
       <div ref={contentRef}>
 
         {/* ABOUT */}
-        <section id="about" className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
+        <section id="about" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-8 md:gap-16 mb-0">
               <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>01 — About</p>
@@ -403,7 +419,7 @@ export default function AditiPortfolio() {
                   Curious.<br />End-to-End.<br />Builder.
                 </h2>
                 <p className={`font-sans text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/80"}`}>
-                  I've been coding since the 6th grade, and that curiosity has never stopped. CS undergrad building real products end-to-end — from AI-powered fashion platforms and mobile apps to CLI tools in C. I also leverage AI tools to accelerate development workflows and enhance the efficiency of my engineering process. I want to understand how everything works at every layer of the stack, not just the surface. Outside of software, I actively pursue Mechatronics and have a deep interest in electronics and robotics, where the physical and digital worlds meet.
+                  I&apos;ve been coding since the 6th grade, and that curiosity has never stopped. CS undergrad building real products end-to-end — from AI-powered web platforms and ML models written from scratch to CLI tools in C. I also leverage AI tools to accelerate development workflows and enhance the efficiency of my engineering process. I want to understand how everything works at every layer of the stack, not just the surface. Outside of software, I actively pursue Mechatronics and have a deep interest in electronics and robotics, where the physical and digital worlds meet.
                 </p>
               </div>
               <div className="flex flex-col gap-6">
@@ -411,7 +427,7 @@ export default function AditiPortfolio() {
                 <div className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"} pt-6 space-y-4`}>
                   <div className="flex flex-wrap justify-between gap-2 font-mono text-sm sm:text-base">
                     <span>Navrachana University</span>
-                    <span className={isDarkMode ? "text-white/55" : "text-black/60"}>S.Y. · In Progress</span>
+                    <span className={isDarkMode ? "text-white/55" : "text-black/60"}>Second year · In progress</span>
                   </div>
                   <div className={`flex flex-wrap justify-between gap-2 font-mono text-[13px] sm:text-sm ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
                     <span>CGPA: 8.06</span>
@@ -431,7 +447,7 @@ export default function AditiPortfolio() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
+        <section id="projects" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <style>{carouselCss}</style>
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Projects</p>
@@ -482,7 +498,7 @@ export default function AditiPortfolio() {
                 spaceBetween={0}
                 loop
                 keyboard={{ enabled: true }}
-                autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                autoplay={reduceMotion ? false : { delay: 5000, disableOnInteraction: true, pauseOnMouseEnter: true }}
                 pagination={{ clickable: true }}
                 onSwiper={s => { swiperRef.current = s }}
                 onRealIndexChange={s => setActiveProject(s.realIndex)}
@@ -499,16 +515,16 @@ export default function AditiPortfolio() {
 
                         {/* Left column */}
                         <div className="flex flex-col">
-                          <span className={`font-mono text-[13px] sm:text-sm mb-4 ${isDarkMode ? "text-white/55" : "text-black/50"}`}>
+                          <span className={`font-mono text-[13px] sm:text-sm mb-4 ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <h3 className={`font-mono text-xl sm:text-2xl md:text-3xl leading-tight mb-3 ${isDarkMode ? "text-white/90" : "text-black"}`}>
                             {p.name}
                           </h3>
                           <span className={`font-mono text-[13px] border px-2 py-0.5 rounded-sm self-start mb-4 ${
-                            isDarkMode ? "border-white/25 text-white/55" : "border-black/30 text-black/60"
+                            isDarkMode ? "border-white/25 text-white/55" : "border-black/30 text-black/65"
                           }`}>{p.tag}</span>
-                          <p className={`font-mono text-[13px] tracking-[0.3em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/55" : "text-black/55"}`}>
+                          <p className={`font-mono text-[13px] tracking-[0.3em] uppercase mb-3 sm:mb-4 ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
                             {p.subtitle}
                           </p>
                           <p className={`font-sans text-sm sm:text-base leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/75"}`}>
@@ -607,7 +623,7 @@ export default function AditiPortfolio() {
         </section>
 
         {/* SKILLS */}
-        <section id="skills" className={`overflow-x-clip border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
+        <section id="skills" className={`scroll-mt-24 overflow-x-clip border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>03 — Skills</p>
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
@@ -662,11 +678,11 @@ export default function AditiPortfolio() {
         </section>
 
         {/* CONTACT */}
-        <section id="contact" className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
+        <section id="contact" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>04 — Contact</p>
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
-              Let's Build<br />Something.
+              Let&apos;s Build<br />Something.
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
               <p className={`font-sans text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/80"}`}>
@@ -679,7 +695,7 @@ export default function AditiPortfolio() {
                   { label: "GitHub",   val: "github.com/Aditi-Atodaria",      href: "https://github.com/Aditi-Atodaria" },
                 ].map((link, i) => (
                   <div key={i} className={`flex flex-col sm:flex-row sm:gap-6 sm:items-baseline gap-1 border-b pb-4 ${isDarkMode ? "border-white/12" : "border-black/15"}`}>
-                    <span className={`font-mono text-[13px] sm:text-sm sm:w-16 flex-shrink-0 tracking-wider ${isDarkMode ? "text-white/55" : "text-black/55"}`}>{link.label}</span>
+                    <span className={`font-mono text-[13px] sm:text-sm sm:w-16 flex-shrink-0 tracking-wider ${isDarkMode ? "text-white/55" : "text-black/65"}`}>{link.label}</span>
                     <a
                       href={link.href}
                       target="_blank"
@@ -698,10 +714,10 @@ export default function AditiPortfolio() {
         {/* FOOTER */}
         <footer className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-            <span className={`font-mono text-[13px] tracking-widest uppercase ${isDarkMode ? "text-white/55" : "text-black/50"}`}>
+            <span className={`font-mono text-[13px] tracking-widest uppercase ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
               Aditi Atodaria
             </span>
-            <span className={`font-mono text-[13px] ${isDarkMode ? "text-white/55" : "text-black/45"}`}>
+            <span className={`font-mono text-[13px] ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
               B.Tech CS · Navrachana University
             </span>
           </div>
