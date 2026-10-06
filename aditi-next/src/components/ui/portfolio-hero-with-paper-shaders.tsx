@@ -1,7 +1,7 @@
 "use client"
 
 import { Dithering } from "@paper-design/shaders-react"
-import { Terminal, Cabinet } from "@lucasmarkes/hairline/react"
+import { Terminal, Cabinet, Riffle } from "@lucasmarkes/hairline/react"
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { A11y, Autoplay, EffectCreative, Keyboard, Pagination } from "swiper/modules"
@@ -441,7 +441,7 @@ export default function AditiPortfolio() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-y-2 gap-x-8 xl:gap-x-[44px] items-stretch">
+            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-y-2 gap-x-8 xl:gap-x-[51px] items-stretch">
 
             {/* Cabinet — left on extra-large screens, hidden below. Its height equals the card height
                 (the bottom offset is the carousel's arrows/dots row). Hover it to take over the focus. */}
@@ -613,7 +613,8 @@ export default function AditiPortfolio() {
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
               Technical<br />Stack
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-10 md:gap-16">
+              <div className="space-y-10 sm:space-y-14">
               <div>
                 <p className={`font-mono text-sm tracking-[0.3em] uppercase mb-4 sm:mb-6 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>Languages &amp; Tools</p>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -643,6 +644,17 @@ export default function AditiPortfolio() {
                       <div className={`font-sans text-sm sm:text-base leading-relaxed pl-4 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>{item.desc}</div>
                     </div>
                   ))}
+                </div>
+              </div>
+              </div>
+
+              {/* Hairline riffle figure — plate colour must match the page background */}
+              <div className="md:self-center">
+                <div
+                  className="w-full max-w-sm md:max-w-none md:w-[112%] md:-ml-[12%] xl:w-[130%] xl:-ml-[15%]"
+                  style={hairlineVars(isDarkMode)}
+                >
+                  <Riffle theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
                 </div>
               </div>
             </div>
