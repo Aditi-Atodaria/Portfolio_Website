@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@lucasmarkes/hairline": "^0.3.0",
     "@paper-design/shaders-react": "^0.0.76",
     "next": "16.2.7",
     "react": "19.2.4",
