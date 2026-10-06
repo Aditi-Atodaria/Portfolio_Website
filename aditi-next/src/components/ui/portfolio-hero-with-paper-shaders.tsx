@@ -443,7 +443,7 @@ export default function AditiPortfolio() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-8 xl:gap-10 items-stretch">
+            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] gap-8 xl:gap-[44px] items-stretch">
 
             {/* Cabinet — left on extra-large screens, hidden below. Its height equals the card height
                 (the bottom offset is the carousel's pagination padding). Hover it to take over the focus. */}
@@ -451,7 +451,7 @@ export default function AditiPortfolio() {
               <div className="absolute inset-x-0 top-0 bottom-[44px]">
               <Cabinet
                 ref={cabinetRef}
-                className="absolute top-0 left-1/2 -translate-x-1/2 h-full"
+                className="absolute top-0 left-1/2 -translate-x-1/2 h-full scale-90 origin-[72%_50%]"
                 style={{ width: "auto" }}
                 theme={isDarkMode ? "dark" : "light"}
                 intensity={0.6}
