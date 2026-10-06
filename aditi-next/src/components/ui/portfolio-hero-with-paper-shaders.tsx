@@ -355,7 +355,7 @@ export default function AditiPortfolio() {
               <Dithering
                 style={{ width: "100%", height: "100%" }}
                 colorBack={isDarkMode ? "#0e0e10" : "hsl(0, 0%, 100%)"}
-                colorFront={isDarkMode ? "hsl(25, 100%, 55%)" : "hsl(220, 100%, 62%)"}
+                colorFront={isDarkMode ? "hsl(187, 90%, 55%)" : "hsl(192, 95%, 38%)"}
                 shape="warp"
                 type="4x4"
                 size={3}
