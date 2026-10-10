@@ -40,6 +40,22 @@ const PROJECTS: Project[] = [
     demo: "https://tetrathon-photobooth.vercel.app/",
   },
    {
+    name: "Plot Lifecycle Platform",
+    tag: "Java · Spring Boot",
+    subtitle: "Plot Sales & Installment Management",
+    desc: "A web platform for real-estate teams that sell plots. It takes each plot from available to sold while turning leads into buyers, tracking installments and crediting agent commissions. The domain is modelled as objects (plots, leads, buyers, payments, commissions), with enums for statuses and plans and one small service class per business rule.",
+    bullets: [
+      { bold: "Plot lifecycle state machine", rest: "where six states and their allowed moves are encapsulated in a single service, so an illegal jump is rejected whether it comes from a page or the REST API" },
+      { bold: "Layered design", rest: "with controllers, services and repositories, each layer talking only to the abstraction below it (Spring Data interfaces extending JpaRepository)" },
+      { bold: "Constructor-injected services", rest: "composed together: a payment flows through the installment, lifecycle and audit services, and a plot reaching SOLD triggers a 2% commission automatically" },
+      { bold: "Installments done exactly", rest: "by splitting the 80% balance into six BigDecimal tranches, with the last one absorbing rounding so the schedule always adds up" },
+      { bold: "Polymorphism where it fits", rest: "through overloaded createLead methods and a UserService that implements UserDetailsService, signing in admin, agent and accountant roles with BCrypt" },
+      { bold: "Audit trail and live dashboard", rest: "logging every state change, payment and commission, with one JSON endpoint feeding the KPIs, charts and a rule-based executive briefing" },
+    ],
+    stack: ["Java 17", "Spring Boot", "Spring Security", "JPA / Hibernate", "Thymeleaf", "SQLite", "Chart.js", "Docker"],
+    github: "https://github.com/Aditi-Atodaria/plot-lifecycle-platform",
+  },
+   {
     name: "Regime Classifier",
     tag: "Machine Learning",
     subtitle: "Softmax Regression from Scratch",
@@ -114,6 +130,16 @@ const GALLERY_IMAGES: Record<string, GalleryItem["images"]> = {
     { src: "/images/photobooth/03-countdown.png", alt: "Synced countdown before everyone is captured at once" },
     { src: "/images/photobooth/04-strip.png", alt: "Finished photobooth strip, auto-saved to Google Drive and ready to download" },
   ],
+  "Plot Lifecycle Platform": [
+    { src: "/images/plotlifecycle/01-dashboard.png", alt: "Dashboard: KPIs for sell-through, collections, outstanding balance and a rule-based executive summary" },
+    { src: "/images/plotlifecycle/02-dashboard-charts.png", alt: "Dashboard charts: inventory by lifecycle state, capital trajectory, lead pipeline and receivables" },
+    { src: "/images/plotlifecycle/03-inventory.png", alt: "Inventory: plot registry where each plot can only move along its allowed lifecycle transitions" },
+    { src: "/images/plotlifecycle/04-leads.png", alt: "Leads: capture inbound leads and convert them into buyers against a plot" },
+    { src: "/images/plotlifecycle/05-ledger.png", alt: "Ledger: down payments, installments and refunds that drive each plot's status" },
+    { src: "/images/plotlifecycle/06-installments.png", alt: "Installment vault: six monthly tranches generated from the 80% remaining balance" },
+    { src: "/images/plotlifecycle/07-commissions.png", alt: "Commissions: 2% credited to the assigned agent when a plot is sold" },
+    { src: "/images/plotlifecycle/08-audit-trail.png", alt: "Audit trail: every state change, payment and commission recorded" },
+  ],
   TruthGuard: [
     { src: "/images/truthguard/01-home.png", alt: "Home: paste text, a link or a screenshot to verify a claim" },
     { src: "/images/truthguard/02-how-it-works.png", alt: "Features and how it works: submit, analyze, verdict" },
@@ -130,7 +156,7 @@ const GALLERY_IMAGES: Record<string, GalleryItem["images"]> = {
   ],
 }
 
-const GALLERY_ITEMS: GalleryItem[] = ["TETRAthon Photobooth", "TruthGuard", "Threadverse"].map(name => ({
+const GALLERY_ITEMS: GalleryItem[] = ["TETRAthon Photobooth", "Plot Lifecycle Platform", "TruthGuard", "Threadverse"].map(name => ({
   name,
   demo: PROJECTS.find(p => p.name === name)?.demo,
   images: GALLERY_IMAGES[name] ?? [],
@@ -205,11 +231,11 @@ const EXPERIENCE = [
 ]
 
 const SKILL_GROUPS = [
-  { label: "Languages", items: ["Python", "C", "TypeScript", "JavaScript"] },
+  { label: "Languages", items: ["Python", "Java", "C", "TypeScript", "JavaScript"] },
   { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Matplotlib", "Groq API"] },
-  { label: "Web & Frameworks", items: ["React", "Next.js", "Flask", "Jinja2", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas"] },
-  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "OAuth", "Authlib", "REST APIs", "Vercel"] },
-  { label: "Tools & Platforms", items: ["Git", "GitHub", "pytest", "Google Apps Script"] },
+  { label: "Web & Frameworks", items: ["React", "Next.js", "Flask", "Spring Boot", "Jinja2", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas"] },
+  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "JPA / Hibernate", "OAuth", "Authlib", "REST APIs", "Vercel"] },
+  { label: "Tools & Platforms", items: ["Git", "GitHub", "Docker", "pytest", "Google Apps Script"] },
 ]
 
 const CURRENTLY_EXPLORING = [
