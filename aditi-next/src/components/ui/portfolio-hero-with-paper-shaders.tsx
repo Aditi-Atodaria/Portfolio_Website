@@ -761,7 +761,7 @@ export default function AditiPortfolio() {
         <footer className={`border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <span className={`font-mono text-[13px] tracking-widest uppercase ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
-              Aditi Atodaria
+              Developed By Aditi Atodaria
             </span>
             <span className={`font-mono text-[13px] ${isDarkMode ? "text-white/55" : "text-black/65"}`}>
               B.Tech CS · Navrachana University
