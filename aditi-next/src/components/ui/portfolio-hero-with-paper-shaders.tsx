@@ -164,19 +164,18 @@ const EXPERIENCE = [
     community: "NUV's student tech community",
     role: "Technical Team Leadership",
     bullets: [
-      { bold: "Idea to delivery", rest: "— help plan the technical team's work and see it through to completion" },
-      { bold: "Flagship events", rest: "— cover the website and technical side of events such as TetraTHON 2026, NUV's international Indo-French hackathon" },
-      { bold: "TetraTHON 2026", rest: "— a hackathon with 170+ participating teams; guided the technical team, worked on the event website and coordinated tasks across the team" },
-    ],
-    tags: ["Team Leadership", "Event Website", "Task Coordination", "TetraTHON 2026"],
+      { bold: "Idea to delivery", rest: ": help plan the technical team's work and see it through to completion" },
+      { bold: "Flagship events", rest: ": cover the website and technical side of events such as TetraTHON 2026, NUV's international Indo-French hackathon" },
+      { bold: "TetraTHON 2026", rest: ": a hackathon with 170+ participating teams; guided the technical team, worked on the event website and coordinated tasks across the team" },
+    ]
   },
 ]
 
 const SKILL_GROUPS = [
   { label: "Languages", items: ["Python", "C", "TypeScript", "JavaScript"] },
-  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Matplotlib", "Groq API", "Tavily API"] },
-  { label: "Web & Frameworks", items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas", "Flask", "Jinja2", "Cheerio"] },
-  { label: "Backend & Cloud", items: ["Supabase", "Supabase Realtime", "SQLite", "OAuth", "Authlib", "REST APIs", "Vercel"] },
+  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Matplotlib", "Groq API"] },
+  { label: "Web & Frameworks", items: ["React", "Next.js", "Flask", "Jinja2", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas"] },
+  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "OAuth", "Authlib", "REST APIs", "Vercel"] },
   { label: "Tools & Platforms", items: ["Git", "GitHub", "pytest", "Google Apps Script"] },
 ]
 
