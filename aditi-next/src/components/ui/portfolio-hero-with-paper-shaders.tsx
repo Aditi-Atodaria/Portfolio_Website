@@ -130,6 +130,7 @@ const carouselCss = `
 const hairlineVars = (isDarkMode: boolean) =>
   ({
     "--hairline-plate": isDarkMode ? "#0e0e10" : "#ffffff",
+    "--hairline-stroke": 1, // library default is 0.9; ~10% bolder
     ...(isDarkMode && {
       "--hairline-edge": "#c4c4cc",
       "--hairline-mid": "#7a7a85",
@@ -158,10 +159,10 @@ const bladeForProject = (index: number) => CABINET_BLADES - index * Math.floor(C
 
 const SKILL_GROUPS = [
   { label: "Languages", items: ["Python", "C", "TypeScript", "JavaScript"] },
-  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Groq API"] },
-  { label: "Web & Frameworks", items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS", "Flask"] },
-  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "OAuth"] },
-  { label: "Tools & Platforms", items: ["Git"] },
+  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Matplotlib", "Groq API"] },
+  { label: "Web & Frameworks", items: ["React", "Next.js", "Flask", "Jinja2", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas"] },
+  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "OAuth", "Authlib", "REST APIs", "Vercel"] },
+  { label: "Tools & Platforms", items: ["Git", "GitHub", "pytest", "Google Apps Script"] },
 ]
 
 const CURRENTLY_EXPLORING = [
@@ -702,7 +703,7 @@ export default function AditiPortfolio() {
               {SKILL_GROUPS.map((group, gi) => (
                 <div key={group.label} className="grid grid-cols-1 md:grid-cols-[15rem_1fr] gap-4 md:gap-8 md:items-center py-6 sm:py-8 first:pt-0">
                   <p className={`font-mono text-[13px] tracking-[0.2em] uppercase ${isDarkMode ? "text-white/55" : "text-black/60"}`}>
-                    {String(gi + 1).padStart(2, "0")} / {group.label}
+                    <span className="mr-4">{String(gi + 1).padStart(2, "0")}</span>{group.label}
                   </p>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {group.items.map(item => (
