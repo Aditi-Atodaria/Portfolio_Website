@@ -737,7 +737,7 @@ export default function AditiPortfolio() {
               <div className="space-y-4">
                 {[
                   { label: "Email",    val: "aditi.atodaria@gmail.com",      href: "mailto:aditi.atodaria@gmail.com" },
-                  { label: "LinkedIn", val: "linkedin.com/in/aditi-atodaria", href: "https://linkedin.com/in/aditi-atodaria" },
+                  { label: "LinkedIn", val: "linkedin.com/in/aditi-atodaria", href: "https://www.linkedin.com/in/aditi-atodaria-ab94553b1/" },
                   { label: "GitHub",   val: "github.com/Aditi-Atodaria",      href: "https://github.com/Aditi-Atodaria" },
                 ].map((link, i) => (
                   <div key={i} className={`flex flex-col sm:flex-row sm:gap-6 sm:items-baseline gap-1 border-b pb-4 ${isDarkMode ? "border-white/12" : "border-black/15"}`}>
