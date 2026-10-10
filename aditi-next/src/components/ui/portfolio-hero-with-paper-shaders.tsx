@@ -43,16 +43,16 @@ const PROJECTS: Project[] = [
     name: "Plot Lifecycle Platform",
     tag: "Java · Spring Boot",
     subtitle: "Plot Sales & Installment Management",
-    desc: "A web platform for real-estate teams that sell plots. It takes each plot from available to sold while turning leads into buyers, tracking installments and crediting agent commissions. The domain is modelled as objects (plots, leads, buyers, payments, commissions), with enums for statuses and plans and one small service class per business rule.",
+    desc: "A web platform for real-estate teams that takes each plot from available to sold, handling leads, installments and agent commissions. The domain is modelled as objects, with one service class per business rule.",
     bullets: [
-      { bold: "Plot lifecycle state machine", rest: "where six states and their allowed moves are encapsulated in a single service, so an illegal jump is rejected whether it comes from a page or the REST API" },
-      { bold: "Layered design", rest: "with controllers, services and repositories, each layer talking only to the abstraction below it (Spring Data interfaces extending JpaRepository)" },
-      { bold: "Constructor-injected services", rest: "composed together: a payment flows through the installment, lifecycle and audit services, and a plot reaching SOLD triggers a 2% commission automatically" },
-      { bold: "Installments done exactly", rest: "by splitting the 80% balance into six BigDecimal tranches, with the last one absorbing rounding so the schedule always adds up" },
-      { bold: "Polymorphism where it fits", rest: "through overloaded createLead methods and a UserService that implements UserDetailsService, signing in admin, agent and accountant roles with BCrypt" },
-      { bold: "Audit trail and live dashboard", rest: "logging every state change, payment and commission, with one JSON endpoint feeding the KPIs, charts and a rule-based executive briefing" },
+      { bold: "Lifecycle state machine", rest: "with allowed moves encapsulated in one service, so illegal jumps fail from pages and the API alike" },
+      { bold: "Layered design", rest: "of controllers, services and repository interfaces extending JpaRepository" },
+      { bold: "Constructor-injected services", rest: "composed together; reaching SOLD auto-creates the 2% commission" },
+      { bold: "Exact installments", rest: "as six BigDecimal tranches over the 80% balance, the last absorbing rounding" },
+      { bold: "Polymorphism", rest: "via overloaded createLead methods and a UserService implementing UserDetailsService" },
+      { bold: "Audit trail and dashboard", rest: "fed by one JSON endpoint" },
     ],
-    stack: ["Java 17", "Spring Boot", "Spring Security", "JPA / Hibernate", "Thymeleaf", "SQLite", "Chart.js", "Docker"],
+    stack: ["Java 17", "Spring Boot", "Spring Security", "JPA / Hibernate", "Thymeleaf", "SQLite", "Docker"],
     github: "https://github.com/Aditi-Atodaria/plot-lifecycle-platform",
   },
    {
@@ -156,11 +156,16 @@ const GALLERY_IMAGES: Record<string, GalleryItem["images"]> = {
   ],
 }
 
-const GALLERY_ITEMS: GalleryItem[] = ["TETRAthon Photobooth", "Plot Lifecycle Platform", "TruthGuard", "Threadverse"].map(name => ({
+const GALLERY_ITEMS: GalleryItem[] = ["TETRAthon Photobooth", "TruthGuard", "Threadverse"].map(name => ({
   name,
   demo: PROJECTS.find(p => p.name === name)?.demo,
   images: GALLERY_IMAGES[name] ?? [],
 }))
+
+/** Plot Lifecycle Platform has no hosted demo, so its screenshots sit under the cabinet, left of the live demo cards. */
+const PLOT_GALLERY_ITEMS: GalleryItem[] = [
+  { name: "Plot Lifecycle Platform", images: GALLERY_IMAGES["Plot Lifecycle Platform"] ?? [] },
+]
 
 const carouselCss = `
   .project-cards .swiper {
@@ -815,7 +820,9 @@ export default function AditiPortfolio() {
 
             {/* Live demo cards — aligned with the carousel column */}
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] xl:gap-x-[51px] mt-8 sm:mt-12">
-              <div className="hidden xl:block" />
+              <div className="mb-8 xl:mb-0">
+                <ProjectGallery items={PLOT_GALLERY_ITEMS} isDarkMode={isDarkMode} label="Screenshots" columns={1} />
+              </div>
               <ProjectGallery items={GALLERY_ITEMS} isDarkMode={isDarkMode} />
             </div>
           </div>
