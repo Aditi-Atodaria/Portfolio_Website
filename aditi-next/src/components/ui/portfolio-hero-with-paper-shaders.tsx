@@ -820,9 +820,14 @@ export default function AditiPortfolio() {
 
             {/* Live demo cards — aligned with the carousel column */}
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] xl:gap-x-[51px] mt-8 sm:mt-12">
-              {/* Width matches one of the three demo cards: xl = 8/9 of this 3fr cell minus one gap-share, sm–lg = a third of the row, mobile = full width */}
-              <div className="mb-8 xl:mb-0 sm:w-[calc((100%-3rem)/3)] xl:w-[calc(88.8889%-1rem)]">
+              {/* Same width as one demo card. On xl it is pushed to the right edge of the 3fr cell and out into
+                  the 51px column gap, so the space to the first demo card is the same 24px as between the demos.
+                  Below xl it sits on its own row above them, with the same 20/24px gap. */}
+              <div className="mb-5 sm:mb-6 xl:mb-0 sm:w-[calc((100%-3rem)/3)] xl:w-[calc(88.8889%-1rem)] xl:ml-auto xl:-mr-[27px]">
                 <ProjectGallery items={PLOT_GALLERY_ITEMS} isDarkMode={isDarkMode} label="Screenshots" columns={1} />
+                <p className={`font-mono text-sm mt-3 ${isDarkMode ? "text-white/60" : "text-black/60"}`}>
+                  Click a card to see the images
+                </p>
               </div>
               <ProjectGallery items={GALLERY_ITEMS} isDarkMode={isDarkMode} />
             </div>
