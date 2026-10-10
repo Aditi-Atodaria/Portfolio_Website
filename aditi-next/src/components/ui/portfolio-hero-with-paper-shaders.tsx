@@ -157,11 +157,26 @@ const hairlineAccentCss = `
 const CABINET_BLADES = 12
 const bladeForProject = (index: number) => CABINET_BLADES - index * Math.floor(CABINET_BLADES / PROJECTS.length)
 
+const EXPERIENCE = [
+  {
+    period: "July 2026 - Present",
+    org: "NeoFolks",
+    community: "NUV's student tech community",
+    role: "Technical Team Leadership",
+    bullets: [
+      { bold: "Idea to delivery", rest: "— help plan the technical team's work and see it through to completion" },
+      { bold: "Flagship events", rest: "— cover the website and technical side of events such as TetraTHON 2026, NUV's international Indo-French hackathon" },
+      { bold: "TetraTHON 2026", rest: "— a hackathon with 170+ participating teams; guided the technical team, worked on the event website and coordinated tasks across the team" },
+    ],
+    tags: ["Team Leadership", "Event Website", "Task Coordination", "TetraTHON 2026"],
+  },
+]
+
 const SKILL_GROUPS = [
   { label: "Languages", items: ["Python", "C", "TypeScript", "JavaScript"] },
-  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Matplotlib", "Groq API"] },
-  { label: "Web & Frameworks", items: ["React", "Next.js", "Flask", "Jinja2", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas"] },
-  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "OAuth", "Authlib", "REST APIs", "Vercel"] },
+  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Matplotlib", "Groq API", "Tavily API"] },
+  { label: "Web & Frameworks", items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS", "HTML5 Canvas", "Flask", "Jinja2", "Cheerio"] },
+  { label: "Backend & Cloud", items: ["Supabase", "Supabase Realtime", "SQLite", "OAuth", "Authlib", "REST APIs", "Vercel"] },
   { label: "Tools & Platforms", items: ["Git", "GitHub", "pytest", "Google Apps Script"] },
 ]
 
@@ -284,7 +299,7 @@ export default function AditiPortfolio() {
     contentRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const navLinks = ["About", "Projects", "Skills", "Contact"]
+  const navLinks = ["About", "Experience", "Projects", "Skills", "Contact"]
 
   return (
     <div className={`transition-colors duration-500 ${isDarkMode ? "bg-[#0e0e10] text-white/90" : "bg-white text-black"}`}>
@@ -374,7 +389,7 @@ export default function AditiPortfolio() {
         </div>
 
         {/* Mobile dropdown */}
-        <div className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-64" : "max-h-0"}`}>
+        <div className={`sm:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? "max-h-80" : "max-h-0"}`}>
           <div className={`flex flex-col px-4 pb-4 gap-1 ${isDarkMode ? "bg-[#0e0e10]" : "bg-white"}`}>
             {navLinks.map(label => (
               <a
@@ -512,12 +527,54 @@ export default function AditiPortfolio() {
           </div>
         </section>
 
+        {/* EXPERIENCE */}
+        <section id="experience" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
+            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Experience</p>
+            <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
+              Leadership &amp; Experience
+            </h2>
+            <div className={`divide-y ${isDarkMode ? "divide-white/15" : "divide-black/10"}`}>
+              {EXPERIENCE.map(e => (
+                <div key={e.org + e.period} className="grid grid-cols-1 md:grid-cols-[15rem_1fr] gap-4 md:gap-8 py-6 sm:py-8 first:pt-0 last:pb-0">
+                  <div>
+                    <p className={`font-mono text-[13px] tracking-[0.2em] uppercase mb-2 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>{e.period}</p>
+                    <p className={`font-mono text-base sm:text-lg ${isDarkMode ? "text-white/90" : "text-black"}`}>{e.org}</p>
+                    <p className={`font-sans text-sm mt-1 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>{e.community}</p>
+                  </div>
+                  <div className="flex flex-col gap-5">
+                    <h3 className={`font-mono text-xl sm:text-2xl leading-tight ${isDarkMode ? "text-white/90" : "text-black"}`}>{e.role}</h3>
+                    <ul className="space-y-2">
+                      {e.bullets.map((b, j) => (
+                        <li key={j} className="flex items-start gap-3">
+                          <span className={`mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0 ${isDarkMode ? "bg-white/60" : "bg-black/40"}`} />
+                          <span className={`font-sans text-sm sm:text-base leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/80"}`}>
+                            <span className="font-semibold">{b.bold}</span>
+                            {" "}{b.rest}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
+                      {e.tags.map(t => (
+                        <span key={t} className={`font-mono text-[13px] px-2 sm:px-2.5 py-1 border rounded-sm ${
+                          isDarkMode ? "border-white/20 text-white/55" : "border-black/25 text-black/65"
+                        }`}>{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* PROJECTS */}
         <section id="projects" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <style>{carouselCss + hairlineAccentCss}</style>
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
             <div className="max-w-[60rem] mx-auto">
-            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>02 — Projects</p>
+            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>03 — Projects</p>
             <div className="mb-10 sm:mb-16">
               <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight ${isDarkMode ? "text-white/90" : "text-black"}`}>
                 Projects &amp; Innovation
@@ -694,7 +751,7 @@ export default function AditiPortfolio() {
         {/* SKILLS */}
         <section id="skills" className={`scroll-mt-24 overflow-x-clip border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
-            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>03 — Skills</p>
+            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>04 — Skills</p>
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
               Technical Stack
             </h2>
@@ -742,9 +799,12 @@ export default function AditiPortfolio() {
               </div>
 
               {/* Hairline riffle figure — plate colour must match the page background */}
-              <div className="md:self-center">
+              {/* From md up the figure is pinned to the bottom of this column (= the divider under the last
+                  "Currently Exploring" item). translate-y 13.4% pushes the figure's box down by the empty strip
+                  under its faint reflection, so the reflection itself ends exactly on that divider. */}
+              <div className="md:relative">
                 <div
-                  className="w-full max-w-sm md:max-w-none md:w-[129%] md:-ml-[14.5%] xl:w-[150%] xl:-ml-[25%] hl-accent"
+                  className="w-full max-w-sm md:max-w-none md:absolute md:bottom-0 md:left-[-14.5%] md:w-[129%] md:translate-y-[13.4%] xl:left-[-25%] xl:w-[150%] hl-accent"
                   style={{ ...hairlineVars(isDarkMode), ...accentVars(isDarkMode) }}
                 >
                   <Riffle theme={isDarkMode ? "dark" : "light"} intensity={0.6} />
@@ -757,7 +817,7 @@ export default function AditiPortfolio() {
         {/* CONTACT */}
         <section id="contact" className={`scroll-mt-24 border-t ${isDarkMode ? "border-white/15" : "border-black/8"}`}>
           <div className="max-w-5xl mx-auto px-4 sm:px-8 py-14 sm:py-24">
-            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>04 — Contact</p>
+            <p className={`font-mono text-sm tracking-[0.4em] uppercase mb-6 sm:mb-8 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>05 — Contact</p>
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
               Let&apos;s Build<br />Something.
             </h2>
