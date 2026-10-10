@@ -554,13 +554,6 @@ export default function AditiPortfolio() {
                         </li>
                       ))}
                     </ul>
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
-                      {e.tags.map(t => (
-                        <span key={t} className={`font-mono text-[13px] px-2 sm:px-2.5 py-1 border rounded-sm ${
-                          isDarkMode ? "border-white/20 text-white/55" : "border-black/25 text-black/65"
-                        }`}>{t}</span>
-                      ))}
-                    </div>
                   </div>
                 </div>
               ))}
