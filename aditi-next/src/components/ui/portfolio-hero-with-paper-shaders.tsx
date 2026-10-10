@@ -38,7 +38,7 @@ const PROJECTS: Project[] = [
     stack: ["Python", "NumPy", "scikit-learn", "pandas", "Matplotlib", "pytest"],
     github: "https://github.com/Aditi-Atodaria/Regime-Classifier",
   },
-  ,{
+  {
     name: "TruthGuard",
     tag: "Next.js · AI",
     subtitle: "Real-Time AI Fact-Checking Platform",
