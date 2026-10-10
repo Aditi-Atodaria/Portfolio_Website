@@ -23,7 +23,22 @@ type Project = {
 }
 
 const PROJECTS: Project[] = [
-  {
+   {
+    name: "Regime Classifier",
+    tag: "Machine Learning",
+    subtitle: "Softmax Regression from Scratch",
+    desc: "A multi-class classifier written in plain NumPy that predicts a stock's market regime (trending up, trending down, volatile, range-bound) from technical indicators, built to understand how classification models learn and checked honestly against baselines and scikit-learn.",
+    bullets: [
+      { bold: "Built from scratch in NumPy", rest: "— softmax, cross-entropy loss, L2 regularisation and gradient descent" },
+      { bold: "Verified for correctness", rest: "with a numerical gradient check, 11 unit tests, and 99.97% prediction agreement with scikit-learn" },
+      { bold: "Leak-free evaluation", rest: "using a chronological train/test split, a gap for the forecast task, and a scaler fitted on training data only" },
+      { bold: "77.2% accuracy, 0.705 macro-F1", rest: "on held-out data when classifying today's regime, vs 55.9% and 0.179 for the majority class" },
+      { bold: "5-day-ahead forecast", rest: "did not beat a persistence baseline (macro-F1 0.630 vs 0.727), and is reported as-is" },
+    ],
+    stack: ["Python", "NumPy", "scikit-learn", "pandas", "Matplotlib", "pytest"],
+    github: "https://github.com/Aditi-Atodaria/Regime-Classifier",
+  },
+  ,{
     name: "TruthGuard",
     tag: "Next.js · AI",
     subtitle: "Real-Time AI Fact-Checking Platform",
@@ -55,21 +70,6 @@ const PROJECTS: Project[] = [
     stack: ["Python", "Flask", "SQLite", "Jinja2", "JavaScript", "Groq API", "Authlib", "Werkzeug"],
     github: "https://github.com/Aditi-Atodaria/Threadverse-new",
     demo: "https://threadverse-new.vercel.app/",
-  },
-  {
-    name: "Regime Classifier",
-    tag: "Machine Learning",
-    subtitle: "Softmax Regression from Scratch",
-    desc: "A multi-class classifier written in plain NumPy that predicts a stock's market regime (trending up, trending down, volatile, range-bound) from technical indicators, built to understand how classification models learn and checked honestly against baselines and scikit-learn.",
-    bullets: [
-      { bold: "Built from scratch in NumPy", rest: "— softmax, cross-entropy loss, L2 regularisation and gradient descent" },
-      { bold: "Verified for correctness", rest: "with a numerical gradient check, 11 unit tests, and 99.97% prediction agreement with scikit-learn" },
-      { bold: "Leak-free evaluation", rest: "using a chronological train/test split, a gap for the forecast task, and a scaler fitted on training data only" },
-      { bold: "77.2% accuracy, 0.705 macro-F1", rest: "on held-out data when classifying today's regime, vs 55.9% and 0.179 for the majority class" },
-      { bold: "5-day-ahead forecast", rest: "did not beat a persistence baseline (macro-F1 0.630 vs 0.727), and is reported as-is" },
-    ],
-    stack: ["Python", "NumPy", "scikit-learn", "pandas", "Matplotlib", "pytest"],
-    github: "https://github.com/Aditi-Atodaria/Regime-Classifier",
   },
   {
     name: "Stock Analyzer",
