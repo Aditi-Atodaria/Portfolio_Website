@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "
 import { Swiper, SwiperSlide } from "swiper/react"
 import { A11y, EffectCreative, Keyboard, Pagination } from "swiper/modules"
 import type { Swiper as SwiperType } from "swiper"
+import { ProjectGallery, type GalleryItem } from "./project-gallery"
 import "swiper/css"
 import "swiper/css/effect-creative"
 import "swiper/css/pagination"
@@ -101,6 +102,39 @@ const PROJECTS: Project[] = [
     github: "https://github.com/Aditi-Atodaria/stock_analyzer",
   },
 ]
+
+/**
+ * Screenshots for the "Live demos" cards under the project carousel.
+ * The first image of each project is the card cover; clicking it opens the pop-up carousel.
+ */
+const GALLERY_IMAGES: Record<string, GalleryItem["images"]> = {
+  "TETRAthon Photobooth": [
+    { src: "/images/photobooth/01-home.png", alt: "Home: start a room for your team or join one with a code" },
+    { src: "/images/photobooth/02-room.png", alt: "Room lobby: live teammate previews, photo style and synced countdown" },
+    { src: "/images/photobooth/03-countdown.png", alt: "Synced countdown before everyone is captured at once" },
+    { src: "/images/photobooth/04-strip.png", alt: "Finished photobooth strip, auto-saved to Google Drive and ready to download" },
+  ],
+  TruthGuard: [
+    { src: "/images/truthguard/01-home.png", alt: "Home: paste text, a link or a screenshot to verify a claim" },
+    { src: "/images/truthguard/02-how-it-works.png", alt: "Features and how it works: submit, analyze, verdict" },
+    { src: "/images/truthguard/03-verdict.png", alt: "Verdict: FALSE with a 95% confidence score, extracted claims and sources" },
+    { src: "/images/truthguard/04-history.png", alt: "History: searchable record of verified claims with verdict filters" },
+  ],
+  Threadverse: [
+    { src: "/images/threadverse/01-home.png", alt: "Home: hero with a featured product carousel" },
+    { src: "/images/threadverse/02-shop.png", alt: "Shop: product grid with category, sort and price filters" },
+    { src: "/images/threadverse/03-product.png", alt: "Product page: sizes, add to cart, wishlist and recommendations" },
+    { src: "/images/threadverse/04-ai-stylist.png", alt: "AI stylist chatbot recommending products from a prompt" },
+    { src: "/images/threadverse/05-stores.png", alt: "Independent vendor storefronts" },
+    { src: "/images/threadverse/06-orders.png", alt: "My Orders: order history with status" },
+  ],
+}
+
+const GALLERY_ITEMS: GalleryItem[] = ["TETRAthon Photobooth", "TruthGuard", "Threadverse"].map(name => ({
+  name,
+  demo: PROJECTS.find(p => p.name === name)?.demo,
+  images: GALLERY_IMAGES[name] ?? [],
+}))
 
 const carouselCss = `
   .project-cards .swiper {
@@ -465,7 +499,7 @@ export default function AditiPortfolio() {
           </div>
 
           <p className={`font-mono text-sm sm:text-sm tracking-normal sm:tracking-wide mt-3 sm:mt-4 px-2 leading-relaxed ${isDarkMode ? "text-white/80" : "text-black/75"}`}>
-            CS UNDERGRAD BUILDING FULL-STACK AND ML PROJECTS
+            CS undergrad building full-stack and ML projects
           </p>
         </div>
 
@@ -751,6 +785,12 @@ export default function AditiPortfolio() {
                 ))}
               </div>
             </div>
+            </div>
+
+            {/* Live demo cards — aligned with the carousel column */}
+            <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] xl:gap-x-[51px] mt-8 sm:mt-12">
+              <div className="hidden xl:block" />
+              <ProjectGallery items={GALLERY_ITEMS} isDarkMode={isDarkMode} />
             </div>
           </div>
         </section>
