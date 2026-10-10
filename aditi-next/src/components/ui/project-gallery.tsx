@@ -184,9 +184,19 @@ function GalleryModal({
   )
 }
 
-/* ───────────── The cards shown under the project carousel ───────────── */
+/* ───────────── The three cards shown under the project carousel ───────────── */
 
-export function ProjectGallery({ items, isDarkMode }: { items: GalleryItem[]; isDarkMode: boolean }) {
+export function ProjectGallery({
+  items,
+  isDarkMode,
+  label = "Live demos",
+  columns = 3,
+}: {
+  items: GalleryItem[]
+  isDarkMode: boolean
+  label?: string
+  columns?: 1 | 3
+}) {
   const [openItem, setOpenItem] = useState<GalleryItem | null>(null)
   const close = useCallback(() => setOpenItem(null), [])
 
@@ -194,9 +204,9 @@ export function ProjectGallery({ items, isDarkMode }: { items: GalleryItem[]; is
 
   return (
     <div>
-      <p className={`font-mono text-sm tracking-[0.2em] uppercase mb-4 sm:mb-6 ${muted}`}>Screenshots &amp; live demos</p>
+      <p className={`font-mono text-sm tracking-[0.2em] uppercase mb-4 sm:mb-6 ${muted}`}>{label}</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+      <div className={`grid grid-cols-1 gap-5 sm:gap-6 ${columns === 3 ? "sm:grid-cols-3" : ""}`}>
         {items.map(item => {
           const cover = item.images[0]
           return (
