@@ -465,7 +465,7 @@ export default function AditiPortfolio() {
           </div>
 
           <p className={`font-mono text-sm sm:text-sm tracking-normal sm:tracking-wide mt-3 sm:mt-4 px-2 leading-relaxed ${isDarkMode ? "text-white/80" : "text-black/75"}`}>
-            CS undergrad building full-stack and ML projects
+            CS UNDERGRAD BUILDING FULL-STACK AND ML PROJECTS
           </p>
         </div>
 
