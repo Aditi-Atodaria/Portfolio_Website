@@ -23,6 +23,23 @@ type Project = {
 }
 
 const PROJECTS: Project[] = [
+  {
+    name: "TETRAthon Photobooth",
+    tag: "Real-Time Web App",
+    subtitle: "Remote Group Photobooth for the Indo-French Hackathon",
+    desc: "When red-alert rain in Vadodara forced the Indo-French Hackathon (TETRAthon, 40 shortlisted teams from 170+) fully online, I built a photobooth so teammates in different homes could still share one hackathon memory. Everyone joins a room from their own device and appears in a single photo strip.",
+    bullets: [
+      { bold: "Room-based sessions", rest: "— a team creates a room, shares a short code, and teammates join from anywhere with no sign-up" },
+      { bold: "Live camera preview", rest: "of every teammate streamed into the room in real time over Supabase Realtime channels" },
+      { bold: "Synchronised capture", rest: "with a shared countdown, so everyone in the room is photographed at the same moment" },
+      { bold: "Three output formats", rest: "(photo strip, polaroids, grid) composed on the HTML canvas, with black & white or colour filters" },
+      { bold: "Presence tracking", rest: "with heartbeats and stale-member cleanup so the member list reflects who is actually in frame" },
+      { bold: "Sign-in-free Drive archive", rest: "where each finished strip is saved to the club's Google Drive through an Apps Script bridge" },
+    ],
+    stack: ["JavaScript", "HTML5 Canvas", "Supabase Realtime", "PostgreSQL", "Google Apps Script", "Vercel"],
+    github: "https://github.com/Aditi-Atodaria/Photobooth",
+    demo: "https://tetrathon-photobooth.vercel.app/",
+  },
    {
     name: "Regime Classifier",
     tag: "Machine Learning",
