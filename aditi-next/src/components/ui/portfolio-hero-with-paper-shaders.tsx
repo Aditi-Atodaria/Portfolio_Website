@@ -459,7 +459,7 @@ export default function AditiPortfolio() {
                   Curious.<br />End-to-End.<br />Builder.
                 </h2>
                 <p className={`font-sans text-base sm:text-lg leading-relaxed ${isDarkMode ? "text-white/70" : "text-black/80"}`}>
-                  I&apos;ve been coding since the 6th grade, and that curiosity has never stopped. CS undergrad building real products end-to-end — from AI-powered web platforms and ML models written from scratch to CLI tools in C. I also leverage AI tools to accelerate development workflows and enhance the efficiency of my engineering process. I want to understand how everything works at every layer of the stack, not just the surface. Outside of software, I actively pursue Mechatronics and have a deep interest in electronics and robotics, where the physical and digital worlds meet.
+                  I&apos;ve been coding since the 6th grade, and that curiosity has never stopped. CS undergrad building real products end-to-end, from AI-powered web platforms and ML models written from scratch to CLI tools in C. I also leverage AI tools to accelerate development workflows and enhance the efficiency of my engineering process. I want to understand how everything works at every layer of the stack, not just the surface. Outside of software, I actively pursue Mechatronics and have a interest in electronics and robotics, where the physical and digital worlds meet.
                 </p>
               </div>
               <div className="flex flex-col gap-6">
