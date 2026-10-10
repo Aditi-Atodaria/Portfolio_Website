@@ -820,7 +820,8 @@ export default function AditiPortfolio() {
 
             {/* Live demo cards — aligned with the carousel column */}
             <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,8fr)] xl:gap-x-[51px] mt-8 sm:mt-12">
-              <div className="mb-8 xl:mb-0">
+              {/* Width matches one of the three demo cards: xl = 8/9 of this 3fr cell minus one gap-share, sm–lg = a third of the row, mobile = full width */}
+              <div className="mb-8 xl:mb-0 sm:w-[calc((100%-3rem)/3)] xl:w-[calc(88.8889%-1rem)]">
                 <ProjectGallery items={PLOT_GALLERY_ITEMS} isDarkMode={isDarkMode} label="Screenshots" columns={1} />
               </div>
               <ProjectGallery items={GALLERY_ITEMS} isDarkMode={isDarkMode} />
