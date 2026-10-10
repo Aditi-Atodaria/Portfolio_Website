@@ -156,7 +156,13 @@ const hairlineAccentCss = `
 const CABINET_BLADES = 12
 const bladeForProject = (index: number) => CABINET_BLADES - index * Math.floor(CABINET_BLADES / PROJECTS.length)
 
-const SKILLS = ["Python", "C", "TypeScript", "JavaScript", "React", "Next.js", "Tailwind CSS", "HTML/CSS", "Flask", "SQLite", "Supabase", "Groq API", "NumPy", "pandas", "scikit-learn", "Git"]
+const SKILL_GROUPS = [
+  { label: "Languages", items: ["Python", "C", "TypeScript", "JavaScript"] },
+  { label: "AI & Data Science", items: ["NumPy", "pandas", "scikit-learn", "Groq API"] },
+  { label: "Web & Frameworks", items: ["React", "Next.js", "Tailwind CSS", "HTML/CSS", "Flask"] },
+  { label: "Backend & Cloud", items: ["Supabase", "SQLite", "OAuth"] },
+  { label: "Tools & Platforms", items: ["Git"] },
+]
 
 const CURRENTLY_EXPLORING = [
   { title: "Mechatronics", desc: "Pursuing a minor, bridging software with mechanical and electrical systems — embedded hardware, sensors, and intelligent machines." },
@@ -691,25 +697,33 @@ export default function AditiPortfolio() {
             <h2 className={`font-mono text-2xl sm:text-3xl md:text-4xl leading-tight mb-10 sm:mb-16 ${isDarkMode ? "text-white/90" : "text-black"}`}>
               Technical Stack
             </h2>
+            {/* Skill categories — numbered rows, label left, chips right */}
+            <div className={`divide-y mb-14 sm:mb-20 ${isDarkMode ? "divide-white/15" : "divide-black/10"}`}>
+              {SKILL_GROUPS.map((group, gi) => (
+                <div key={group.label} className="grid grid-cols-1 md:grid-cols-[15rem_1fr] gap-4 md:gap-8 md:items-center py-6 sm:py-8 first:pt-0">
+                  <p className={`font-mono text-[13px] tracking-[0.2em] uppercase ${isDarkMode ? "text-white/55" : "text-black/60"}`}>
+                    {String(gi + 1).padStart(2, "0")} / {group.label}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    {group.items.map(item => (
+                      <span
+                        key={item}
+                        className={`font-mono text-[13px] sm:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 border tracking-wider transition-colors cursor-default ${
+                          isDarkMode
+                            ? "border-white/20 text-white/70 hover:border-white/40 hover:text-white"
+                            : "border-black/30 text-black/70 hover:border-black/60 hover:text-black"
+                        }`}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-10 md:gap-16">
               <div className="space-y-10 sm:space-y-14">
-              <div>
-                <p className={`font-mono text-sm tracking-[0.3em] uppercase mb-4 sm:mb-6 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>Languages &amp; Tools</p>
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {SKILLS.map((s, i) => (
-                    <span
-                      key={i}
-                      className={`font-mono text-[13px] sm:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 border tracking-wider transition-colors cursor-default ${
-                        isDarkMode
-                          ? "border-white/20 text-white/70 hover:border-white/40 hover:text-white"
-                          : "border-black/30 text-black/70 hover:border-black/60 hover:text-black"
-                      }`}
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
               <div>
                 <p className={`font-mono text-sm tracking-[0.3em] uppercase mb-4 sm:mb-6 ${isDarkMode ? "text-white/55" : "text-black/60"}`}>Currently Exploring</p>
                 <div className="space-y-5 sm:space-y-6">
