@@ -164,9 +164,9 @@ const EXPERIENCE = [
     community: "NUV's student tech community",
     role: "Technical Team Leadership",
     bullets: [
-      { bold: "Idea to delivery", rest: ": help plan the technical team's work and see it through to completion" },
-      { bold: "Flagship events", rest: ": cover the website and technical side of events such as TetraTHON 2026, NUV's international Indo-French hackathon" },
-      { bold: "TetraTHON 2026", rest: ": a hackathon with 170+ participating teams; guided the technical team, worked on the event website and coordinated tasks across the team" },
+      { bold: "Idea to delivery", rest: ":  help plan the technical team's work and see it through to completion" },
+      { bold: "Flagship events", rest: ":  cover the website and technical side of events such as TetraTHON 2026, NUV's international Indo-French hackathon" },
+      { bold: "TetraTHON 2026", rest: ":  a hackathon with 170+ participating teams; guided the technical team, worked on the event website and coordinated tasks across the team" },
     ]
   },
 ]
@@ -180,8 +180,8 @@ const SKILL_GROUPS = [
 ]
 
 const CURRENTLY_EXPLORING = [
-  { title: "Mechatronics", desc: "Pursuing a minor, bridging software with mechanical and electrical systems — embedded hardware, sensors, and intelligent machines." },
-  { title: "Machine Learning", desc: "Actively learning ML fundamentals — model training, data pipelines, and applying intelligent systems to real engineering problems." },
+  { title: "Mechatronics", desc: "Pursuing a minor, bridging software with mechanical and electrical systems, embedded hardware, sensors, and intelligent machines." },
+  { title: "Machine Learning", desc: "Actively learning ML fundamentals, model training, data pipelines, and applying intelligent systems to real engineering problems." },
 ]
 
 /** Dither colours: [dark mode, light mode]. Change PALETTE to switch the hero shader. */
